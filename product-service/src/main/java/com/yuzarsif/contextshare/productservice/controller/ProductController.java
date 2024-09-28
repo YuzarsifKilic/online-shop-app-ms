@@ -5,10 +5,8 @@ import com.yuzarsif.contextshare.productservice.dto.ProductDto;
 import com.yuzarsif.contextshare.productservice.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -18,7 +16,12 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ProductDto createProduct(@RequestBody @Valid CreateProductRequest request) {
-        return productService.saveProduct(request);
+    public ResponseEntity<ProductDto> createProduct(@RequestBody @Valid CreateProductRequest request) {
+        return ResponseEntity.ok(productService.saveProduct(request));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.findProductById(id));
     }
 }

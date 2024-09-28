@@ -23,4 +23,11 @@ public record CampaignDto(
                 from.getEndDate(),
                 ProductDto.convert(from.getProducts()));
     }
+
+    public static List<CampaignDto> convert(List<Campaign> campaigns) {
+        return campaigns
+                .stream()
+                .map(CampaignDto::convert)
+                .toList();
+    }
 }

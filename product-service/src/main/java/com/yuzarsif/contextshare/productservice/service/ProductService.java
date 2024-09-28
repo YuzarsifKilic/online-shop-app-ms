@@ -38,4 +38,8 @@ public class ProductService {
         return productRepository
                 .findAllById(idList);
     }
+
+    public ProductDto findProductById(Long id) {
+        return ProductDto.convert(getProduct(id));
+    }
 }

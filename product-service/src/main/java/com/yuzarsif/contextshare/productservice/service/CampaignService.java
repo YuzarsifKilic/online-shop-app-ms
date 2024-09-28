@@ -1,6 +1,8 @@
 package com.yuzarsif.contextshare.productservice.service;
 
+import com.yuzarsif.contextshare.productservice.dto.CampaignDto;
 import com.yuzarsif.contextshare.productservice.dto.CreateCampaignRequest;
+import com.yuzarsif.contextshare.productservice.exception.EntityNotFoundException;
 import com.yuzarsif.contextshare.productservice.model.Campaign;
 import com.yuzarsif.contextshare.productservice.model.Product;
 import com.yuzarsif.contextshare.productservice.repository.CampaignRepository;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,5 +35,20 @@ public class CampaignService {
                 .build();
 
         campaignRepository.save(campaign);
+    }
+
+    public List<CampaignDto> getCampaigns() {
+        return campaignRepository
+                .findAll()
+                .stream()
+                .map(CampaignDto::convert)
+                .toList();
+    }
+
+    public CampaignDto findCampaignById(Integer id) {
+        return CampaignDto
+                .convert(campaignRepository
+                        .findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Campaign not found with id: " + id)));
     }
 }
