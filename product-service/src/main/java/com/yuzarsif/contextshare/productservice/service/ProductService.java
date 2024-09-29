@@ -42,4 +42,8 @@ public class ProductService {
     public ProductDto findProductById(Long id) {
         return ProductDto.convert(getProduct(id));
     }
+
+    public Boolean existById(Long id) {
+        return productRepository.existsById(id);
+    }
 }

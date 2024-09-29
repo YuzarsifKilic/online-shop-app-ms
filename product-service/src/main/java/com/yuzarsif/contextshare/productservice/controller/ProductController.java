@@ -24,4 +24,9 @@ public class ProductController {
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(productService.findProductById(id));
     }
+
+    @GetMapping("/exists/{id}")
+    public ResponseEntity<Boolean> existById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.existById(id));
+    }
 }
