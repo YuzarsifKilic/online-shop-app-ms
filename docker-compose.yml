@@ -1,13 +1,13 @@
 services:
-  order-db:
-    container_name: order-db
+  stock-db:
+    container_name: stock-db
     image: mysql:8.0
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: yuzarsif
-      MYSQL_DATABASE: order-db
+      MYSQL_DATABASE: stock-db
     volumes:
-      - order-db:/var/lib/mysql
+      - stock-db:/var/lib/mysql
     ports:
       - 3307:3306
     networks:
@@ -27,13 +27,13 @@ services:
     networks:
       - microservice-network
 
-  stock-db:
+  order-db:
     image: mongo
-    container_name: stock-db
+    container_name: order-db
     ports:
       - 27017:27017
     volumes:
-      - stock-db:/data
+      - order-db:/data
     environment:
       - MONGO_INITDB_ROOT_USERNAME=yuzarsif
       - MONGO_INITDB_ROOT_PASSWORD=yuzarsif

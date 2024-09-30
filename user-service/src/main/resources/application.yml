@@ -1,6 +1,14 @@
 spring:
+  profiles:
+    active: local
   application:
     name: USER-SERVICE
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    properties:
+      dialect: org.hibernate.dialect.MySQLDialect
 
 jwt:
   key: MIICXgIBAAKBgQDwN/k1V4mWo91sdoGQFYifK4ZE0EXBMG7HUiI6YcDQ/DhlOYJyqcAqe2eJfU8hxyfjEx6q8CJkHtQU/COMU4XfDX+2szKubSoMNniY+ShOBBSYcvvmy8DIB5KquCts2rQ/b3B9dW9Zka4U3fMIxhks4aMN51lrG3+Vt+nhB7cvfwIDAQABAoGBAKhBjHygY+7vuBhQqU+Sxa83fUSV3UYD9pQGI5NhBP1crOO59HT8EW2wIkVbUCIIrReQPNreeDhIn6RTN1MC7bCC5PjrOsk1u68aEpBmqoSBtTMJCeti/Zt+zLFDdrjjauGZU6WsueBJP0f6tmVldG8GO+sA4mvw1wy+l+MUaw4BAkEA/7VAan5kEmul58Pe9Tr2L7rQIUr/omULVWOcRAoMhO8xVGj4YOKV3afSeJFE1uhryfIFBanxysIfrCzvVk7KTwJBAPB+MapNBuTYEiG5k2qoqcNuosNi+xO28DOcRfQhZYsE04wktBosgJXHKsidR+2eZIB5tJPNYi/MMo6F4Uuba9ECQQDbHhc/6mSYgFRfgTHqVIcnqV62WM0r/Ig0uLHsf+vwcgOEgJructvXX/r0RA+IVQwgtdpl2xYOGEEJykuhWszzAkEAtunkcHkBg1DsCYaSHw+Ff0VIun8wJECB1V9IvXQhPWlAVVkdOsMaUdEYM1mc+Zf9LNJki/4sbdpLoacmQlFF4QJAJqzayeM8AYfeCschV9AFZ9j/OUPHUzKnUWN80pcCp/nwCkJ1fnc0BD3ydZwNXutV2ck5YBHb4xR7gHutcBSQiA==
