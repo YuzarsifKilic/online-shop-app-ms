@@ -1,0 +1,107 @@
+services:
+  order-db:
+    container_name: order-db
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: yuzarsif
+      MYSQL_DATABASE: order-db
+    volumes:
+      - order-db:/var/lib/mysql
+    ports:
+      - 3307:3306
+    networks:
+      - microservice-network
+
+  product-db:
+    container_name: product-db
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: yuzarsif
+      MYSQL_DATABASE: product-db
+    volumes:
+      - product-db:/var/lib/mysql
+    ports:
+      - 3308:3306
+    networks:
+      - microservice-network
+
+  stock-db:
+    image: mongo
+    container_name: stock-db
+    ports:
+      - 27017:27017
+    volumes:
+      - stock-db:/data
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=yuzarsif
+      - MONGO_INITDB_ROOT_PASSWORD=yuzarsif
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=yuzarsif
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=yuzarsif
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+
+#  zookeeper:
+#    image: confluentinc/cp-zookeeper:latest
+#    environment:
+#      ZOOKEEPER_SERVER_ID: 1
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#      ZOOKEEPER_TICK_TIME: 2000
+#    ports:
+#      - "2181:2181"
+
+#  kafka:
+#    image: confluentinc/cp-kafka:latest
+#    environment:
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#    ports:
+#      - "9092:9092"
+#    depends_on:
+#      - zookeeper
+#
+#  kafka-ui:
+#    image: provectuslabs/kafka-ui:latest
+#    ports:
+#      - "8082:8080"
+#    environment:
+#      KAFKA_CLUSTERS_0_NAME: local
+#      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+#    depends_on:
+#      - kafka
+
+  user-db:
+    container_name: user-db
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: yuzarsif
+      MYSQL_DATABASE: user-db
+    volumes:
+      - user-db-data:/var/lib/mysql
+    ports:
+      - 3312:3306
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  order-db:
+  product-db:
+  stock-db:
+  user-db:
