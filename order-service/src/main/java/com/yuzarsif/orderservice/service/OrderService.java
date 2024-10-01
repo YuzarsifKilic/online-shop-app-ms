@@ -2,6 +2,9 @@ package com.yuzarsif.orderservice.service;
 
 import com.yuzarsif.orderservice.client.product.ProductClient;
 import com.yuzarsif.orderservice.client.product.ProductResponse;
+import com.yuzarsif.orderservice.client.stock.StockClient;
+import com.yuzarsif.orderservice.client.stock.StockResponse;
+import com.yuzarsif.orderservice.client.stock.UpdateStockRequest;
 import com.yuzarsif.orderservice.dto.CreateOrderRequest;
 import com.yuzarsif.orderservice.dto.OrderDto;
 import com.yuzarsif.orderservice.exception.EntityNotFoundException;
@@ -21,6 +24,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductClient productClient;
+    private final StockClient stockClient;
 
     public void createOrder(CreateOrderRequest createOrderRequest) {
 
@@ -42,10 +46,20 @@ public class OrderService {
         Set<Products> productsList = new HashSet<>();
 
         for (int i = 0; i < products.size(); i++) {
+            ProductResponse product = (ProductResponse) products.toArray()[i];
+            Integer productQuantity = createOrderRequest.products().get(i).quantity();
+
+
+            StockResponse productStock = stockClient.findStockByProductId(product.id());
+
+            if (productStock.quantity() < productQuantity) {
+                throw new EntityNotFoundException("Quantity not enough for product : " + product.name());
+            }
+
             productsList.add(Products
                     .builder()
-                    .product((ProductResponse) products.toArray()[i])
-                    .quantity(createOrderRequest.products().get(i).quantity())
+                    .product(product)
+                    .quantity(productQuantity)
                     .build());
         }
 
@@ -57,6 +71,18 @@ public class OrderService {
                 .build();
 
         orderRepository.save(order);
+
+        reduceProductQuantity(createOrderRequest);
+    }
+
+    private void reduceProductQuantity(CreateOrderRequest request) {
+        for (int i = 0; i < request.products().size(); i++) {
+            Long productId = request.products().get(i).productId();
+            Integer productQuantity = request.products().get(i).quantity();
+
+            stockClient.updateStock(productId, new UpdateStockRequest(-productQuantity));
+        }
+
     }
 
     public List<OrderDto> findOrdersByUserId(Long userId) {

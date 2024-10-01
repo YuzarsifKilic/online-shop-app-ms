@@ -5,6 +5,7 @@ import com.yuzarsif.contextshare.productservice.dto.ProductDto;
 import com.yuzarsif.contextshare.productservice.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,9 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductDto> createProduct(@RequestBody @Valid CreateProductRequest request) {
-        return ResponseEntity.ok(productService.saveProduct(request));
+    public ResponseEntity<String> createProduct(@RequestBody @Valid CreateProductRequest request) {
+        productService.saveProduct(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Product Created Successfully");
     }
 
     @GetMapping("/{id}")

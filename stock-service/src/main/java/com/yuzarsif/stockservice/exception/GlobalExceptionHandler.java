@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException ex, WebSocket webSocket) {
+    public ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException ex) {
         ErrorDetails errorDetails = new ErrorDetails(
                 "NOT_FOUND_ERROR",
             ex.getMessage(),

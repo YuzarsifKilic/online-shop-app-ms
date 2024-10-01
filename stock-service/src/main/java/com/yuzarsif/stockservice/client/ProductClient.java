@@ -11,7 +11,7 @@ public class ProductClient {
     private final RestTemplate restTemplate;
 
     public Boolean existById(Long id) {
-        return restTemplate.getForObject("http://PRODUCT_SERVICE/products/{id}/exists", Boolean.class, id);
+        return restTemplate.getForObject("http://PRODUCT-SERVICE/api/v1/products/exists/{id}", Boolean.class, id);
     }
 
 }

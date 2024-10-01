@@ -8,7 +8,7 @@ import java.util.List;
 
 public record CreateOrderRequest(
         @NotNull
-        Long userId,
+        String userId,
         @NotEmpty
         List<ProductRequest> products
 ) {

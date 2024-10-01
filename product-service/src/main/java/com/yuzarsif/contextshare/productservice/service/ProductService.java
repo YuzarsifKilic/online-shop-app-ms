@@ -3,6 +3,7 @@ package com.yuzarsif.contextshare.productservice.service;
 import com.yuzarsif.contextshare.productservice.dto.CreateProductRequest;
 import com.yuzarsif.contextshare.productservice.dto.ProductDto;
 import com.yuzarsif.contextshare.productservice.exception.EntityNotFoundException;
+import com.yuzarsif.contextshare.productservice.model.Category;
 import com.yuzarsif.contextshare.productservice.model.Product;
 import com.yuzarsif.contextshare.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,17 +16,21 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
-    public ProductDto saveProduct(CreateProductRequest request) {
+    public void saveProduct(CreateProductRequest request) {
+        Category category = categoryService.findById(request.categoryId());
+
         Product product = Product
                 .builder()
                 .name(request.name())
                 .description(request.description())
                 .price(request.price())
                 .mainImageUrl(request.mainImageUrl())
+                .category(category)
                 .build();
 
-        return ProductDto.convert(productRepository.save(product));
+        productRepository.save(product);
     }
 
     public Product getProduct(Long id) {

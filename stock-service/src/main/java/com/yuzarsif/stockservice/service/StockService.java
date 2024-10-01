@@ -2,6 +2,7 @@ package com.yuzarsif.stockservice.service;
 
 import com.yuzarsif.stockservice.client.ProductClient;
 import com.yuzarsif.stockservice.dto.CreateStockRequest;
+import com.yuzarsif.stockservice.dto.StockDto;
 import com.yuzarsif.stockservice.dto.UpdateStockRequest;
 import com.yuzarsif.stockservice.exception.EntityNotFoundException;
 import com.yuzarsif.stockservice.model.Stock;
@@ -35,9 +36,14 @@ public class StockService {
         stockRepository.save(stock);
     }
 
+    public StockDto findStockByProductId(Long productId) {
+        return StockDto.convert(stockRepository.findByProductId(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Stock not found by product id : " + productId)));
+    }
+
     public void updateStock(Long id, UpdateStockRequest request) {
-        Stock stock = stockRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Stock not found with id: " + id));
+        Stock stock = stockRepository.findByProductId(id)
+                .orElseThrow(() -> new EntityNotFoundException("Stock not found with product id: " + id));
 
         Integer newQuantity = stock.getQuantity() + request.quantity();
         stock.setQuantity(newQuantity);

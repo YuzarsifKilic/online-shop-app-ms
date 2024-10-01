@@ -35,8 +35,9 @@ services:
     volumes:
       - order-db:/data
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=yuzarsif
-      - MONGO_INITDB_ROOT_PASSWORD=yuzarsif
+      MONGO_INITDB_ROOT_USERNAME: yuzarsif
+      MONGO_INITDB_ROOT_PASSWORD: yuzarsif
+      MONGO_INITDB_DATABASE: order-db
 
 #  mongo-express:
 #    image: mongo-express

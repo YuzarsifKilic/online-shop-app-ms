@@ -12,6 +12,8 @@ public record CreateProductRequest(
         @NotNull @Min(value = 0, message = "Price cannot be negative")
         Double price,
         @NotNull(message = "MainImageUrl cannot be null")
-        String mainImageUrl
+        String mainImageUrl,
+        @NotNull(message = "Category id cannot be null")
+        Integer categoryId
 ) {
 }

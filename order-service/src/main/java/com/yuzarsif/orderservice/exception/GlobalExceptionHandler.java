@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -25,6 +27,30 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<ErrorDetails> handleHttpClientErrorException(HttpClientErrorException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                "CLIENT_EXCEPTION",
+                ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity
+                .status(ex.getStatusCode())
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(HttpServerErrorException.class)
+    public ResponseEntity<ErrorDetails> handleHttpServerErrorException(HttpServerErrorException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                "CLIENT_EXCEPTION",
+                ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity
+                .status(ex.getStatusCode())
                 .body(errorDetails);
     }
 

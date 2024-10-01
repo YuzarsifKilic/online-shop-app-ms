@@ -1,12 +1,12 @@
 package com.yuzarsif.contextshare.productservice.controller;
 
 import com.yuzarsif.contextshare.productservice.dto.CategoryDto;
+import com.yuzarsif.contextshare.productservice.dto.CreateCategoryRequest;
 import com.yuzarsif.contextshare.productservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +16,12 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+
+    @PostMapping
+    public ResponseEntity<String> createCategory(@RequestBody CreateCategoryRequest request) {
+        categoryService.createCategory(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Category created successfully");
+    }
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getAllCategories() {

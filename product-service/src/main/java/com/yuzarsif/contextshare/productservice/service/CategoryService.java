@@ -1,6 +1,9 @@
 package com.yuzarsif.contextshare.productservice.service;
 
 import com.yuzarsif.contextshare.productservice.dto.CategoryDto;
+import com.yuzarsif.contextshare.productservice.dto.CreateCategoryRequest;
+import com.yuzarsif.contextshare.productservice.exception.EntityNotFoundException;
+import com.yuzarsif.contextshare.productservice.model.Category;
 import com.yuzarsif.contextshare.productservice.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,5 +22,19 @@ public class CategoryService {
                 .stream()
                 .map(CategoryDto::convert)
                 .toList();
+    }
+
+    protected Category findById(Integer id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Category didnt find by id: " + id));
+    }
+
+    public void createCategory(CreateCategoryRequest request) {
+        Category category = Category
+                .builder()
+                .name(request.name())
+                .build();
+
+        categoryRepository.save(category);
     }
 }

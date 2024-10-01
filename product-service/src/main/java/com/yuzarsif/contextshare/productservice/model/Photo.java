@@ -17,6 +17,7 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String url;
+    @Column(name = "photo_order")
     private Integer order;
 
     @ManyToOne
