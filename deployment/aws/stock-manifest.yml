@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stockapp
+  labels:
+    app: stockapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stockapp
+  template:
+    metadata:
+      labels:
+        app: stockapp
+    spec:
+      containers:
+        - name: stockapp
+          image: yuzarsifkilic/stock-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9092
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: mysql-username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: mysql-password
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: stock-db-url
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-0.eureka-service.default.svc.cluster.local:8761/eureka
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 9092
+      targetPort: 9092
+  selector:
+    app: stockapp

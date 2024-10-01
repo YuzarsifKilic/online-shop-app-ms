@@ -1,4 +1,4 @@
-FROM 17-alpine-jdk:amazoncorretto-17
+FROM amazoncorretto:17
 
 WORKDIR /app
 
