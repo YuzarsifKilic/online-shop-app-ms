@@ -1,0 +1,71 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aws-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing  # Load Balancer public olacak
+    alb.ingress.kubernetes.io/target-type: ip          # IP tabanlı hedef kullanımı
+spec:
+  ingressClassName: alb  # ALB kullanarak Ingress yönlendirilir
+  rules:
+    - http:
+        paths:
+          - path: /eureka
+            pathType: Prefix
+            backend:
+              service:
+                name: eureka-service
+                port:
+                  number: 8761
+          - path: /api/v1/products
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service
+                port:
+                  number: 9091
+          - path: /api/v1/campaigns
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service
+                port:
+                  number: 9091
+          - path: /api/v1/photos
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service
+                port:
+                  number: 9091
+          - path: /api/v1/categories
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service
+                port:
+                  number: 9091
+
+          - path: /api/v1/stocks
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-service
+                port:
+                  number: 9092
+
+          - path: /api/v1/users
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 9094
+
+          - path: /api/v1/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 9093
