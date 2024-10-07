@@ -5,6 +5,7 @@ import com.yuzarsif.contextshare.productservice.dto.PhotoDto;
 import com.yuzarsif.contextshare.productservice.service.PhotoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,8 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping
-    public void createPhoto(@RequestBody @Valid CreatePhotoRequest request) {
-        photoService.createPhoto(request);
+    public ResponseEntity<List<PhotoDto>> createPhoto(@RequestBody @Valid CreatePhotoRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(photoService.createPhoto(request));
     }
 
     @GetMapping("/product/{productId}")

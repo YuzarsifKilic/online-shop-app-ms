@@ -19,7 +19,7 @@ public class StockService {
     private final StockRepository stockRepository;
     private final ProductClient productClient;
 
-    public void createStock(CreateStockRequest request) {
+    public StockDto createStock(CreateStockRequest request) {
 
         Boolean productExists = productClient.existById(request.productId());
 
@@ -33,7 +33,9 @@ public class StockService {
                 .quantity(request.quantity())
                 .build();
 
-        stockRepository.save(stock);
+        Stock savedStock = stockRepository.save(stock);
+
+        return StockDto.convert(savedStock);
     }
 
     public StockDto findStockByProductId(Long productId) {
@@ -41,13 +43,13 @@ public class StockService {
                 .orElseThrow(() -> new EntityNotFoundException("Stock not found by product id : " + productId)));
     }
 
-    public void updateStock(Long id, UpdateStockRequest request) {
+    public StockDto updateStock(Long id, UpdateStockRequest request) {
         Stock stock = stockRepository.findByProductId(id)
                 .orElseThrow(() -> new EntityNotFoundException("Stock not found with product id: " + id));
 
         Integer newQuantity = stock.getQuantity() + request.quantity();
         stock.setQuantity(newQuantity);
 
-        stockRepository.save(stock);
+        return StockDto.convert(stockRepository.save(stock));
     }
 }

@@ -2,6 +2,7 @@ package com.yuzarsif.contextshare.productservice.service;
 
 import com.yuzarsif.contextshare.productservice.dto.CategoryDto;
 import com.yuzarsif.contextshare.productservice.dto.CreateCategoryRequest;
+import com.yuzarsif.contextshare.productservice.exception.AlreadyExistsException;
 import com.yuzarsif.contextshare.productservice.exception.EntityNotFoundException;
 import com.yuzarsif.contextshare.productservice.model.Category;
 import com.yuzarsif.contextshare.productservice.repository.CategoryRepository;
@@ -29,12 +30,17 @@ public class CategoryService {
                 .orElseThrow(() -> new EntityNotFoundException("Category didnt find by id: " + id));
     }
 
-    public void createCategory(CreateCategoryRequest request) {
+    public CategoryDto createCategory(CreateCategoryRequest request) {
+
+        if (categoryRepository.findByName(request.name()).isPresent()) {
+            throw new AlreadyExistsException("Category already exists with name: " + request.name());
+        }
+
         Category category = Category
                 .builder()
                 .name(request.name())
                 .build();
 
-        categoryRepository.save(category);
+        return CategoryDto.convert(categoryRepository.save(category));
     }
 }

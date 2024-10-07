@@ -1,6 +1,5 @@
 package com.yuzarsif.orderservice.dto;
 
-import com.yuzarsif.orderservice.model.Products;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 

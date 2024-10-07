@@ -31,7 +31,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
-    public ResponseEntity<ErrorDetails> handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebSocket webSocket) {
+    public ResponseEntity<ErrorDetails> handleEmailAlreadyInUseException(EmailAlreadyInUseException ex) {
         ErrorDetails errorDetails = new ErrorDetails(
                 "EMAIL_ALREADY_IN_USE",
                 ex.getMessage(),
@@ -43,12 +43,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleUsernameNotFoundException(UsernameNotFoundException ex, WebSocket webSocket) {
+    public ResponseEntity<ErrorDetails> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         ErrorDetails errorDetails = new ErrorDetails(
                 "NOT_FOUND_ERROR",
                 ex.getMessage(),
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(errorDetails);

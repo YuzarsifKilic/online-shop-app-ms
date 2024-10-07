@@ -22,7 +22,7 @@ public class CampaignService {
     private final CampaignRepository campaignRepository;
     private final ProductService productService;
 
-    public void createCampaign(CreateCampaignRequest request) {
+    public CampaignDto createCampaign(CreateCampaignRequest request) {
         Set<Product> products = new HashSet<>(productService.getProductsById(request.products()));
 
         Campaign campaign = Campaign
@@ -34,7 +34,7 @@ public class CampaignService {
                 .products(products)
                 .build();
 
-        campaignRepository.save(campaign);
+        return CampaignDto.convert(campaignRepository.save(campaign));
     }
 
     public List<CampaignDto> getCampaigns() {

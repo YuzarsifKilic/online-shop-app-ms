@@ -9,7 +9,7 @@ import com.yuzarsif.orderservice.dto.CreateOrderRequest;
 import com.yuzarsif.orderservice.dto.OrderDto;
 import com.yuzarsif.orderservice.exception.EntityNotFoundException;
 import com.yuzarsif.orderservice.model.Order;
-import com.yuzarsif.orderservice.model.Products;
+import com.yuzarsif.orderservice.model.Product;
 import com.yuzarsif.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class OrderService {
     private final ProductClient productClient;
     private final StockClient stockClient;
 
-    public void createOrder(CreateOrderRequest createOrderRequest) {
+    public OrderDto createOrder(CreateOrderRequest createOrderRequest) {
 
         //TODO: Check user exists
         Set<ProductResponse> products = new HashSet<>();
@@ -43,7 +43,7 @@ public class OrderService {
             products.add(productClient.getProductById(productId));
         }
 
-        Set<Products> productsList = new HashSet<>();
+        Set<Product> productsList = new HashSet<>();
 
         for (int i = 0; i < products.size(); i++) {
             ProductResponse product = (ProductResponse) products.toArray()[i];
@@ -56,7 +56,7 @@ public class OrderService {
                 throw new EntityNotFoundException("Quantity not enough for product : " + product.name());
             }
 
-            productsList.add(Products
+            productsList.add(Product
                     .builder()
                     .product(product)
                     .quantity(productQuantity)
@@ -70,9 +70,11 @@ public class OrderService {
                 .products(productsList)
                 .build();
 
-        orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
 
         reduceProductQuantity(createOrderRequest);
+
+        return OrderDto.convert(savedOrder);
     }
 
     private void reduceProductQuantity(CreateOrderRequest request) {
@@ -85,7 +87,7 @@ public class OrderService {
 
     }
 
-    public List<OrderDto> findOrdersByUserId(Long userId) {
+    public List<OrderDto> findOrdersByUserId(String userId) {
         return orderRepository.findByUserId(userId)
                 .stream()
                 .map(OrderDto::convert)

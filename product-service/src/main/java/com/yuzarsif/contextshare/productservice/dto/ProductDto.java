@@ -23,7 +23,7 @@ public record ProductDto(
                 from.getPrice(),
                 from.getMainImageUrl(),
                 CategoryDto.convert(from.getCategory()),
-                PhotoDto.convert(from.getPhotos()));
+                from.getPhotos() == null ? null : PhotoDto.convert(from.getPhotos()));
     }
 
     public static List<ProductDto> convert(Set<Product> products) {

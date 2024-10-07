@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.net.http.WebSocket;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -20,9 +22,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException ex) {
         ErrorDetails errorDetails = new ErrorDetails(
                 "NOT_FOUND_ERROR",
-            ex.getMessage(),
-            LocalDateTime.now()
-        );
+            List.of(ex.getMessage()),
+            LocalDateTime.now());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(errorDetails);
@@ -35,9 +36,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
 
+        List<String> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .collect(Collectors.toList());
+
         ErrorDetails errorDetails = new ErrorDetails(
                 "VALIDATION_ERROR",
-                ex.getBindingResult().getFieldErrors().get(0).getField() + ": " + ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage(),
+                errors,
                 LocalDateTime.now());
 
         return ResponseEntity

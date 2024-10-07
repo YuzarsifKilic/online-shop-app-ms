@@ -18,7 +18,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public void saveProduct(CreateProductRequest request) {
+    public ProductDto saveProduct(CreateProductRequest request) {
         Category category = categoryService.findById(request.categoryId());
 
         Product product = Product
@@ -30,7 +30,7 @@ public class ProductService {
                 .category(category)
                 .build();
 
-        productRepository.save(product);
+        return ProductDto.convert(productRepository.save(product));
     }
 
     public Product getProduct(Long id) {

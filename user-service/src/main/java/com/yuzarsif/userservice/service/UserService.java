@@ -1,9 +1,6 @@
 package com.yuzarsif.userservice.service;
 
-import com.yuzarsif.userservice.dto.AuthResponse;
-import com.yuzarsif.userservice.dto.CreateUserRequest;
-import com.yuzarsif.userservice.dto.LoginRequest;
-import com.yuzarsif.userservice.dto.UserDto;
+import com.yuzarsif.userservice.dto.*;
 import com.yuzarsif.userservice.exception.EmailAlreadyInUseException;
 import com.yuzarsif.userservice.exception.EntityNotFoundException;
 import com.yuzarsif.userservice.model.Role;
@@ -28,9 +25,9 @@ public class UserService {
     private final JwtService jwtService;
 
 
-    public void createUser(CreateUserRequest request) {
+    public UserDto createUser(CreateUserRequest request) {
 
-        if (checkIfEmailExists(request.email())) {
+        if (userRepository.findByEmail(request.email()).isPresent()) {
             throw new EmailAlreadyInUseException("Email already in use: " + request.email());
         }
 
@@ -43,7 +40,7 @@ public class UserService {
                 .role(Role.ROLE_USER)
                 .build();
 
-        userRepository.save(user);
+        return UserDto.convert(userRepository.save(user));
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -59,8 +56,8 @@ public class UserService {
         throw new UsernameNotFoundException("Invalid credentials");
     }
 
-    public Boolean checkIfEmailExists(String email) {
-        return userRepository.findByEmail(email).isPresent();
+    public Boolean checkIfEmailExists(EmailRequest email) {
+        return userRepository.findByEmail(email.email()).isPresent();
     }
 
     public UserDto findUserById(String userId) {

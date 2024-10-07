@@ -6,6 +6,7 @@ import com.yuzarsif.contextshare.productservice.model.Campaign;
 import com.yuzarsif.contextshare.productservice.service.CampaignService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,8 @@ public class CampaignController {
     private final CampaignService campaignService;
 
     @PostMapping
-    public void createCampaign(@RequestBody @Valid CreateCampaignRequest request) {
-        campaignService.createCampaign(request);
+    public ResponseEntity<CampaignDto> createCampaign(@RequestBody @Valid CreateCampaignRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(campaignService.createCampaign(request));
     }
 
     @GetMapping

@@ -19,9 +19,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
-        orderService.createOrder(createOrderRequest);
-        return new ResponseEntity<>("Order created successfully", HttpStatus.CREATED);
+    public ResponseEntity<OrderDto> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
+        return new ResponseEntity<>(orderService.createOrder(createOrderRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -30,7 +29,7 @@ public class OrderController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable String userId) {
         return ResponseEntity.ok(orderService.findOrdersByUserId(userId));
     }
 }

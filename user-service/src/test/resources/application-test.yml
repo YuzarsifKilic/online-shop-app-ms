@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        physical_naming_strategy: com.yuzarsif.userservice.config.TestTableNamingStrategy
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  sql:
+    init:
+      platform: h2

@@ -1,10 +1,11 @@
 package com.yuzarsif.stockservice.exception;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record ErrorDetails(
         String message,
-        String description,
+        List<String> description,
         LocalDateTime timestamp
 ) {
 }

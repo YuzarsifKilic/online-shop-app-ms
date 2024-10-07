@@ -3,6 +3,7 @@ package com.yuzarsif.contextshare.productservice.controller;
 import com.yuzarsif.contextshare.productservice.dto.CategoryDto;
 import com.yuzarsif.contextshare.productservice.dto.CreateCategoryRequest;
 import com.yuzarsif.contextshare.productservice.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<String> createCategory(@RequestBody CreateCategoryRequest request) {
-        categoryService.createCategory(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Category created successfully");
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid CreateCategoryRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createCategory(request));
     }
 
     @GetMapping

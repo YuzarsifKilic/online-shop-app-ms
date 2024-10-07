@@ -18,9 +18,8 @@ public class StockController {
     private final StockService stockService;
 
     @PostMapping
-    public ResponseEntity<String> createStock(@RequestBody @Valid CreateStockRequest request) {
-        stockService.createStock(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Stock created successfully");
+    public ResponseEntity<StockDto> createStock(@RequestBody @Valid CreateStockRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(stockService.createStock(request));
     }
 
     @GetMapping("/product/{productId}")
@@ -30,8 +29,7 @@ public class StockController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateStock(@PathVariable Long id, @RequestBody @Valid UpdateStockRequest request) {
-        stockService.updateStock(id, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Stock updated successfully");
+    public ResponseEntity<StockDto> updateStock(@PathVariable Long id, @RequestBody @Valid UpdateStockRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(stockService.updateStock(id, request));
     }
 }

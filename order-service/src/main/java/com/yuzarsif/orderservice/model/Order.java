@@ -18,5 +18,5 @@ public class Order {
     @Id
     private String id;
     private String userId;
-    private Set<Products> products;
+    private Set<Product> products;
 }

@@ -1,9 +1,6 @@
 package com.yuzarsif.userservice.controller;
 
-import com.yuzarsif.userservice.dto.AuthResponse;
-import com.yuzarsif.userservice.dto.CreateUserRequest;
-import com.yuzarsif.userservice.dto.LoginRequest;
-import com.yuzarsif.userservice.dto.UserDto;
+import com.yuzarsif.userservice.dto.*;
 import com.yuzarsif.userservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +16,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@RequestBody @Valid CreateUserRequest request) {
-        userService.createUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
+    public ResponseEntity<UserDto> createUser(@RequestBody @Valid CreateUserRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }
 
     @PostMapping("/login")
@@ -34,8 +30,8 @@ public class UserController {
         return ResponseEntity.ok(userService.findUserById(userId));
     }
 
-    @PostMapping("/user-exists")
-    public ResponseEntity<Boolean> checkIfEmailExists(@RequestBody String email) {
-        return ResponseEntity.ok(userService.checkIfEmailExists(email));
+    @PostMapping("/user-exists/{userId}")
+    public ResponseEntity<Boolean> checkUserExists(@PathVariable String userId) {
+        return ResponseEntity.ok(userService.userExists(userId));
     }
 }
