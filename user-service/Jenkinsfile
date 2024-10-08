@@ -1,0 +1,126 @@
+pipeline {
+  agent any
+
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIAL')
+    MAJOR_VERSION = "1"
+    MINOR_VERSION = "0"
+    PATCH_VERSION = "${env.BUILD_ID}"
+    VERSION = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+  }
+
+  tools {
+    maven "Maven"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Print Current Directory') {
+      steps {
+        script {
+          def currentDir = pwd()
+          echo "Current Directory: ${currentDir}"
+        }
+      }
+    }
+
+    stage('Maven Build') {
+      steps {
+        dir('user-service') {
+          sh 'mvn clean package -DskipTests'
+        }
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        dir('user-service') {
+          sh 'mvn test'
+        }
+      }
+    }
+
+    stage('SonarQube Analysis') {
+      steps {
+        dir('user-service') {
+          sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.host.url=http://3.75.230.91:9000/ -Dsonar.login=squ_ce7f4f5e49e487a767a6d068524a1802cacab42d'
+        }
+      }
+    }
+
+    stage('Check Code Coverage') {
+      steps {
+        dir('user-service') {
+          script {
+            def token = "squ_ce7f4f5e49e487a767a6d068524a1802cacab42d"
+            def sonarQubeUrl = "http://3.75.230.91:9000/api"
+            def componentKey = "com.yuzarsif.context-share:user-service"
+            def coverageThreshold = 80.0
+
+            def response = sh (
+              script: "curl -H 'Authorization: Bearer ${token}' '${sonarQubeUrl}/measures/component?component=${componentKey}&metricKeys=coverage'",
+              returnStdout: true
+            ).trim()
+
+            def coverage = sh (
+              script: "echo '${response}' | jq -r '.component.measures[0].value'",
+              returnStdout: true
+            ).trim().toDouble()
+
+            echo "Coverage: ${coverage}"
+
+            if (coverage < coverageThreshold) {
+              error "Coverage is below the threshold of ${coverageThreshold}%. Aborting the pipeline."
+            }
+          }
+        }
+      }
+    }
+
+    stage('Docker Build and Push') {
+      steps {
+        dir('user-service') {
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          sh 'docker build -t yuzarsifkilic/user-service:${VERSION} .'
+          sh 'docker push yuzarsifkilic/user-service:${VERSION}'
+        }
+      }
+    }
+
+    stage('Cleanup Workspace') {
+      steps {
+        dir('user-service') {
+          deleteDir()
+        }
+      }
+    }
+
+    stage('Update Image Tag in GitOps') {
+      steps {
+          checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[ credentialsId: 'git-ssh', url: 'git@github.com:YuzarsifKilic/online-shop-app-ms.git']])
+          script {
+            sh '''
+              sed -i "s/image:.*/image: yuzarsifkilic\\/user-service:${VERSION}/" deployment/aws/user-manifest.yml
+            '''
+            sh 'git checkout main'
+            sh 'git add .'
+            sh 'git commit -m "Update image tag"'
+            sshagent(['git-ssh']) {
+              sh 'git push'
+            }
+        }
+      }
+    }
+
+    stage('Cleanup Docker Images') {
+      steps {
+        sh 'docker system prune -f --volumes'
+      }
+    }
+  }
+}
