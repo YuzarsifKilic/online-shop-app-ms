@@ -5,6 +5,7 @@ import com.yuzarsif.orderservice.client.product.ProductResponse;
 import com.yuzarsif.orderservice.client.stock.StockClient;
 import com.yuzarsif.orderservice.client.stock.StockResponse;
 import com.yuzarsif.orderservice.client.stock.UpdateStockRequest;
+import com.yuzarsif.orderservice.client.user.UserClient;
 import com.yuzarsif.orderservice.dto.CreateOrderRequest;
 import com.yuzarsif.orderservice.dto.OrderDto;
 import com.yuzarsif.orderservice.exception.EntityNotFoundException;
@@ -25,10 +26,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductClient productClient;
     private final StockClient stockClient;
+    private final UserClient userClient;
 
     public OrderDto createOrder(CreateOrderRequest createOrderRequest) {
 
-        //TODO: Check user exists
+        if (!userClient.checkUserExists(createOrderRequest.userId())) {
+            throw new EntityNotFoundException("User not found with id : " + createOrderRequest.userId());
+        }
+
         Set<ProductResponse> products = new HashSet<>();
 
         for (int i = 0; i < createOrderRequest.products().size(); i++) {

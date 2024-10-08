@@ -19,11 +19,23 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException ex, WebSocket webSocket) {
+    public ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException ex) {
         ErrorDetails errorDetails = new ErrorDetails(
                 "NOT_FOUND_ERROR",
             ex.getMessage(),
             LocalDateTime.now()
+        );
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(ClientException.class)
+    public ResponseEntity<ErrorDetails> handleEntityClientException(ClientException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                "CLIENT_ERROR",
+                ex.getMessage(),
+                LocalDateTime.now()
         );
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -48,7 +60,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "CLIENT_EXCEPTION",
                 ex.getMessage(),
                 LocalDateTime.now());
-
         return ResponseEntity
                 .status(ex.getStatusCode())
                 .body(errorDetails);

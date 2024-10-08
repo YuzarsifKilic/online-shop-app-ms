@@ -21,7 +21,11 @@ public class StockClient {
     private final RestTemplate restTemplate;
 
     public StockResponse findStockByProductId(Long productId) {
-        return restTemplate.getForObject("http://STOCK-SERVICE/api/v1/stocks/product/{productId}", StockResponse.class, productId);
+        try {
+            return restTemplate.getForObject("http://STOCK-SERVICE/api/v1/stocks/product/{productId}", StockResponse.class, productId);
+        } catch (HttpClientErrorException ex) {
+            throw new ClientException("Stock Client error occurred while fetching stock. Url: http://STOCK-SERVICE/api/v1/stocks/product/" + productId);
+        }
     }
 
     public void updateStock(Long productId, UpdateStockRequest request) {
@@ -37,7 +41,11 @@ public class StockClient {
                     requestEntity,
                     String.class);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
-            throw new ClientException("Stock Client error occurred");
+            throw new ClientException(String.format(
+                    "Stock client error occurred while updating stock for product. " +
+                            "Url: http://STOCK-SERVICE/api/v1/stocks/%s " +
+                            "Request details: %s",
+                    productId, request));
         }
     }
 }

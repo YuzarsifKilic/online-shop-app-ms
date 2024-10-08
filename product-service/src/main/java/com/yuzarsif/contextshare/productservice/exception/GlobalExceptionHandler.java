@@ -40,6 +40,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(errorDetails);
     }
 
+    @ExceptionHandler(ClientException.class)
+    public ResponseEntity<ErrorDetails> handleEntityClientException(ClientException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                "CLIENT_ERROR",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorDetails);
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
