@@ -102,7 +102,6 @@ pipeline {
 
     stage('Update Image Tag in GitOps') {
       steps {
-        dir('product-service') {
           checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[ credentialsId: 'git-ssh', url: 'git@github.com:YuzarsifKilic/online-shop-app-ms.git']])
           script {
             sh '''
@@ -114,7 +113,6 @@ pipeline {
             sshagent(['git-ssh']) {
               sh 'git push'
             }
-          }
         }
       }
     }
