@@ -14,7 +14,6 @@ pipeline {
   }
 
   stages {
-
     stage('Checkout') {
       steps {
         checkout scm
@@ -30,94 +29,99 @@ pipeline {
       }
     }
 
-    stage('Navigate to Service Directory') {
+    stage('Maven Build') {
       steps {
         dir('product-service') {
-
-          stage('Maven Build') {
-            steps {
-              sh 'mvn clean package -DskipTests'
-            }
-          }
-
-          stage('Run Tests') {
-            steps {
-              sh 'mvn test'
-            }
-          }
-
-          stage('SonarQube Analysis') {
-            steps {
-              sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.host.url=http://3.75.230.91:9000/ -Dsonar.login=squ_ce7f4f5e49e487a767a6d068524a1802cacab42d'
-            }
-          }
-
-          stage('Check Code Coverage') {
-            steps {
-              script {
-                def token = "squ_ce7f4f5e49e487a767a6d068524a1802cacab42d"
-                def sonarQubeUrl = "http://3.75.230.91:9000/api"
-                def componentKey = "com.online-shop-ms:product-service"
-                def coverageThreshold = 80.0
-
-                def response = sh (
-                  script: "curl -H 'Authorization: Bearer ${token}' '${sonarQubeUrl}/measures/component?component=${componentKey}&metricKeys=coverage'",
-                  returnStdout: true
-                ).trim()
-
-                def coverage = sh (
-                  script: "echo '${response}' | jq -r '.component.measures[0].value'",
-                  returnStdout: true
-                ).trim().toDouble()
-
-                echo "Coverage: ${coverage}"
-
-                if (coverage < coverageThreshold) {
-                  error "Coverage is below the threshold of ${coverageThreshold}%. Aborting the pipeline."
-                }
-              }
-            }
-          }
-
-          stage('Docker Build and Push') {
-            steps {
-              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-              sh 'docker build -t yuzarsifkilic/product-service:${VERSION} .'
-              sh 'docker push yuzarsifkilic/product-service:${VERSION}'
-            }
-          }
-
-          stage('Cleanup Workspace') {
-            steps {
-              deleteDir()
-            }
-          }
-
-          stage('Update Image Tag in GitOps') {
-            steps {
-              checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[ credentialsId: 'git-ssh', url: 'git@github.com:YuzarsifKilic/online-shop-app-ms.git']])
-              script {
-                // product-service dizinindeki image tag güncelleniyor
-                sh '''
-                  sed -i "s/image:.*/image: yuzarsifkilic\\/product-service:${VERSION}/" aws/product-manifest.yml
-                '''
-                sh 'git checkout master'
-                sh 'git add .'
-                sh 'git commit -m "Update image tag"'
-                sshagent(['git-ssh']) {
-                  sh 'git push'
-                }
-              }
-            }
-          }
-
-          stage('Cleanup Docker Images') {
-            steps {
-              sh 'docker system prune -f --volumes'
-            }
-          }
-
+          sh 'mvn clean package -DskipTests'
         }
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        dir('product-service') {
+          sh 'mvn test'
+        }
+      }
+    }
+
+    stage('SonarQube Analysis') {
+      steps {
+        dir('product-service') {
+          sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.host.url=http://3.75.230.91:9000/ -Dsonar.login=squ_ce7f4f5e49e487a767a6d068524a1802cacab42d'
+        }
+      }
+    }
+
+    stage('Check Code Coverage') {
+      steps {
+        dir('product-service') {
+          script {
+            def token = "squ_ce7f4f5e49e487a767a6d068524a1802cacab42d"
+            def sonarQubeUrl = "http://3.75.230.91:9000/api"
+            def componentKey = "com.online-shop-ms:product-service"
+            def coverageThreshold = 80.0
+
+            def response = sh (
+              script: "curl -H 'Authorization: Bearer ${token}' '${sonarQubeUrl}/measures/component?component=${componentKey}&metricKeys=coverage'",
+              returnStdout: true
+            ).trim()
+
+            def coverage = sh (
+              script: "echo '${response}' | jq -r '.component.measures[0].value'",
+              returnStdout: true
+            ).trim().toDouble()
+
+            echo "Coverage: ${coverage}"
+
+            if (coverage < coverageThreshold) {
+              error "Coverage is below the threshold of ${coverageThreshold}%. Aborting the pipeline."
+            }
+          }
+        }
+      }
+    }
+
+    stage('Docker Build and Push') {
+      steps {
+        dir('product-service') {
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          sh 'docker build -t yuzarsifkilic/product-service:${VERSION} .'
+          sh 'docker push yuzarsifkilic/product-service:${VERSION}'
+        }
+      }
+    }
+
+    stage('Cleanup Workspace') {
+      steps {
+        dir('product-service') {
+          deleteDir()
+        }
+      }
+    }
+
+    stage('Update Image Tag in GitOps') {
+      steps {
+        dir('product-service') {
+          checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[ credentialsId: 'git-ssh', url: 'git@github.com:YuzarsifKilic/online-shop-app-ms.git']])
+          script {
+            sh '''
+              sed -i "s/image:.*/image: yuzarsifkilic\\/product-service:${VERSION}/" aws/product-manifest.yml
+            '''
+            sh 'git checkout master'
+            sh 'git add .'
+            sh 'git commit -m "Update image tag"'
+            sshagent(['git-ssh']) {
+              sh 'git push'
+            }
+          }
+        }
+      }
+    }
+
+    stage('Cleanup Docker Images') {
+      steps {
+        sh 'docker system prune -f --volumes'
       }
     }
   }
