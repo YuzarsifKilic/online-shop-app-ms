@@ -59,7 +59,7 @@ pipeline {
           script {
             def token = "squ_ce7f4f5e49e487a767a6d068524a1802cacab42d"
             def sonarQubeUrl = "http://3.75.230.91:9000/api"
-            def componentKey = "com.online-shop-ms:product-service"
+            def componentKey = "com.yuzarsif.context-share:product-service"
             def coverageThreshold = 80.0
 
             def response = sh (
