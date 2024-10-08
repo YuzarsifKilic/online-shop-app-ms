@@ -1,12 +1,9 @@
 package com.yuzarsif.contextshare.productservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuzarsif.contextshare.productservice.dto.CategoryDto;
 import com.yuzarsif.contextshare.productservice.dto.CreateCategoryRequest;
 import com.yuzarsif.contextshare.productservice.exception.AlreadyExistsException;
-import com.yuzarsif.contextshare.productservice.model.Category;
-import com.yuzarsif.contextshare.productservice.service.CampaignService;
 import com.yuzarsif.contextshare.productservice.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class CategoryControllerTest {
+class CategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +36,7 @@ public class CategoryControllerTest {
     private CategoryService categoryService;
 
     @Test
-    public void testCreateCategory_WhenRequestValid_ShouldReturnCategoryDto() throws Exception {
+    void testCreateCategory_WhenRequestValid_ShouldReturnCategoryDto() throws Exception {
 
         when(categoryService.createCategory(mockCreateCategoryRequest())).thenReturn(mockCategory());
 
@@ -55,7 +51,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void testCreateCategory_WhenCategoryNameAlreadyExists_ShouldThrowAlreadyExistsException() throws Exception {
+    void testCreateCategory_WhenCategoryNameAlreadyExists_ShouldThrowAlreadyExistsException() throws Exception {
 
         when(categoryService.createCategory(mockCreateCategoryRequest())).thenThrow(new AlreadyExistsException("Category already exists with name: category_name"));
 
@@ -71,7 +67,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void testCreateCategory_WhenRequestIsInvalid_ShouldReturnBadRequest() throws Exception {
+    void testCreateCategory_WhenRequestIsInvalid_ShouldReturnBadRequest() throws Exception {
 
         mockMvc.perform(post("/api/v1/categories")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -84,7 +80,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void testGetAllCategories_ShouldReturnCategoryDtoList() throws Exception {
+    void testGetAllCategories_ShouldReturnCategoryDtoList() throws Exception {
 
         when(categoryService.getCategories()).thenReturn(List.of(mockCategory()));
 
