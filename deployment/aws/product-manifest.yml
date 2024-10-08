@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: productapp
-          image: yuzarsifkilic/product-service:latest
+          image: yuzarsifkilic/product-service:1.0.21
           imagePullPolicy: Always
           ports:
             - containerPort: 9091
