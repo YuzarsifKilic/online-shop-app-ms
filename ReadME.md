@@ -88,7 +88,8 @@ This repository contains the implementation of a microservice-based online shop 
         - Metrics such as **duplication**, **code smells**, **security vulnerabilities**, and **test coverage** are evaluated.
         - If critical issues are detected, the build fails, and the problems are reported.
     4. **Docker Images**: Upon successful tests, Docker images are built and pushed to Docker Hub.
-    5. **Delete Images**: Deleting images from the EC2 machine.
+    5. **Change Image Tag**: The image tag is changed to the latest version of the manifest file. 
+    6. **Delete Images**: Deleting images from the EC2 machine.
 
 ## Kubernetes Deployment
 
