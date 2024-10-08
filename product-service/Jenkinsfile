@@ -105,6 +105,7 @@ pipeline {
         dir('product-service') {
           checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[ credentialsId: 'git-ssh', url: 'git@github.com:YuzarsifKilic/online-shop-app-ms.git']])
           script {
+            sh 'ls -l aws/'
             sh '''
               sed -i "s/image:.*/image: yuzarsifkilic\\/product-service:${VERSION}/" aws/product-manifest.yml
             '''
