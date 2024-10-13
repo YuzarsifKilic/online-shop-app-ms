@@ -91,7 +91,7 @@ public class UserServiceTest {
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
 
-        when(jwtService.generateToken("email@gmail.com")).thenReturn("token");
+        when(jwtService.generateToken(mockUser())).thenReturn("token");
 
         when(userRepository.findByEmail("email@gmail.com")).thenReturn(Optional.of(mockUser()));
 
@@ -103,7 +103,7 @@ public class UserServiceTest {
         assertEquals("user_id", response.userId());
 
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(jwtService, times(1)).generateToken("email@gmail.com");
+        verify(jwtService, times(1)).generateToken(mockUser());
         verify(userRepository, times(1)).findByEmail("email@gmail.com");
     }
 

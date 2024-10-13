@@ -1,0 +1,4 @@
+.product-card:hover {
+  background-color: #eff1f1;
+  cursor: pointer;
+}

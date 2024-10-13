@@ -37,7 +37,7 @@ public class UserService {
                 .lastName(request.lastName())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
-                .role(Role.ROLE_USER)
+                .role(request.role())
                 .build();
 
         return UserDto.convert(userRepository.save(user));
@@ -46,8 +46,8 @@ public class UserService {
     public AuthResponse login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         if (authentication.isAuthenticated()) {
-            String token = jwtService.generateToken(request.email());
             User user = userRepository.findByEmail(request.email()).get();
+            String token = jwtService.generateToken(user);
             return new AuthResponse(
                     token,
                     user.getRole(),
@@ -70,4 +70,12 @@ public class UserService {
     }
 
 
+    public UserDto getByEmail(EmailRequest email) {
+        return UserDto.convert(userRepository.findByEmail(email.email())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email.email())));
+    }
+
+    public void deleteUser(String userId) {
+        userRepository.deleteById(userId);
+    }
 }

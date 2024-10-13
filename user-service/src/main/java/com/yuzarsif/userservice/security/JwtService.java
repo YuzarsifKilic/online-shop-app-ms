@@ -20,9 +20,10 @@ public class JwtService {
     @Value("${jwt.key}")
     private String key;
 
-    public String generateToken(String username) {
+    public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+        claims.put("roles", userDetails.getAuthorities());
+        return createToken(claims, userDetails.getUsername());
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

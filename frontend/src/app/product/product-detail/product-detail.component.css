@@ -1,0 +1,97 @@
+.product-image {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+
+.product-alt-image {
+  width: 100px; /* Küçük resimlerin genişliği */
+  height: auto;
+  margin: 5px; /* Resimler arasına boşluk eklemek için */
+  cursor: pointer; /* Tıklanabilir olduğunu göstermek için */
+  display: inline-block; /* Resimlerin yan yana düzgün şekilde sıralanması için */
+}
+
+.product-alt-image:hover {
+  border: 2px solid #eff1f1; /* Mavi renkli kenar çizgisi */
+  border-radius: 5px;
+}
+
+.alt-images-container {
+  display: flex; /* Resimlerin yatay şekilde sıralanmasını sağlar */
+  justify-content: center; /* Resimleri yatay olarak ortalar */
+  flex-wrap: wrap; /* Resimlerin sarmalanmasına izin verir, geniş alanlarda düzgün yerleşim sağlar */
+  overflow: hidden;
+}
+
+.d-flex {
+  align-items: center; /* Tüm içerikleri dikeyde ortalar */
+  justify-content: center; /* Yatayda da ortalar */
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+.alt-images-inner {
+  display: flex; /* Resimlerin yatayda yan yana görünmesini sağlar */
+  transition: transform 0.3s ease-in-out; /* Kaydırma animasyonu */
+}
+
+.product-alt-image {
+  width: 100px; /* Küçük resimlerin genişliği */
+  height: auto; /* Otomatik yükseklik */
+  margin: 5px; /* Resimler arasına boşluk eklemek için */
+  cursor: pointer; /* Tıklanabilir olduğunu göstermek için */
+}
+
+.scroll-button {
+  background-color: white;
+  color: gainsboro;
+  border: none;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.scroll-button:hover {
+  color: gray;
+}
+
+.description {
+  font-family: "Inconsolata", monospace;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.price {
+  display: flex;
+  justify-content: center;   /* Yatayda ortalar */
+  align-items: center;       /* Dikeyde ortalar, yazıları aynı sıraya getirir */
+  flex-direction: row;       /* Elemanları yatayda hizalar */
+}
+
+.price-text {
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+}
+
+.order-button {
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #ffff;
+  color: black;
+  border: 2px solid #0066ff;
+  cursor: pointer;
+}

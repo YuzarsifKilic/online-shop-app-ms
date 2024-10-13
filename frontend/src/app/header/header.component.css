@@ -1,0 +1,17 @@
+.navbar {
+  background-color: #eff1f1 !important;
+}
+
+
+.icon:hover {
+  color: blue !important;
+  font-size: 1.6rem !important;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.header {
+  font-size: 28px;
+}

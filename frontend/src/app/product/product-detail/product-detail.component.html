@@ -1,0 +1,29 @@
+<div class="container mt-5">
+  <div class="d-flex gap-5">
+    <div class="col-md-6">
+      <img [src]="mainImageUrl" class="product-image" />
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <button (click)="scrollLeft()" class="scroll-button">&lt;</button>
+
+        <div class="alt-images-container" #scrollContainer>
+          <div class="alt-images-inner" #innerContainer>
+            <img *ngFor="let photo of visiblePhotos"
+                 [src]="photo.url"
+                 class="product-alt-image"
+                 (click)="changeImage(photo.url)" />
+          </div>
+        </div>
+
+        <button (click)="scrollRight()" class="scroll-button">&gt;</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h1>{{ product.name }}</h1>
+      <div class="mt-5 price d-flex justify-content-between">
+        <p class="price-text me-3 mt-3">{{ product.price }}</p>
+        <button class="order-button">Sipariş Ver</button>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5 description"><p>{{ product.description }}</p></div>
+</div>

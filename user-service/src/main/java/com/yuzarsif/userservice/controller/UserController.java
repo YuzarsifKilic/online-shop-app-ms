@@ -34,4 +34,15 @@ public class UserController {
     public ResponseEntity<Boolean> checkUserExists(@PathVariable String userId) {
         return ResponseEntity.ok(userService.userExists(userId));
     }
+
+    @GetMapping("/email")
+    public ResponseEntity<UserDto> findByEmail(@RequestBody EmailRequest email) {
+        return ResponseEntity.ok(userService.getByEmail(email));
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

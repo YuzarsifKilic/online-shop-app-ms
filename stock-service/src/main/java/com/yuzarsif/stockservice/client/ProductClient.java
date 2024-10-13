@@ -1,5 +1,6 @@
 package com.yuzarsif.stockservice.client;
 
+import com.yuzarsif.stockservice.exception.ClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;

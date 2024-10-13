@@ -1,0 +1,26 @@
+<div class="container mt-2 d-flex align-items-center gap-4">
+  <form [formGroup]="formGroup" (ngSubmit)="filterProducts()" class="row">
+    <div class="col-md-4">
+      <label for="search" class="form-label">Search</label>
+      <input type="text" class="form-control" id="search" placeholder="name" formControlName="name">
+    </div>
+    <div class="col-md-3">
+      <label>Category</label>
+      <select class="form-select mt-2" aria-label="Default select example" formControlName="categoryId">
+        <option value="" disabled selected>Select a category</option>
+        <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label for="minPrice" class="form-label">Min. Price</label>
+      <input type="number" class="form-control" id="minPrice" placeholder="0.00" formControlName="min">
+    </div>
+    <div class="col-md-2">
+      <label for="maxPrice" class="form-label">Max. Price</label>
+      <input type="number" class="form-control" id="maxPrice" placeholder="0.00" formControlName="max">
+    </div>
+    <div class="filter-container col-md-1">
+      <button class="btn btn-primary filter-button">Filter</button>
+    </div>
+  </form>
+</div>

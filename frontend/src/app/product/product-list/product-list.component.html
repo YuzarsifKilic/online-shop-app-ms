@@ -1,0 +1,7 @@
+<app-filter (filter)="filter($event)"></app-filter>
+
+<div class="container d-flex align-items-center mt-5">
+  <div class="row">
+      <app-product-card *ngFor="let product of products" [product]="product" class="col-md-4"></app-product-card>
+  </div>
+</div>

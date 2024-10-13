@@ -42,7 +42,7 @@ public class PhotoService {
 
     public List<PhotoDto> getPhotosByProductId(Long productId) {
         List<PhotoDto> photoList = photoRepository
-                .findAllByProductId(productId)
+                .findAllByProduct_IdOrderByOrderAsc(productId)
                 .stream()
                 .map(PhotoDto::convert)
                 .toList();
