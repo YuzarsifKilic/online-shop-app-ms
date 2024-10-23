@@ -4,6 +4,7 @@ public record ProductSearchCriteria(
     String name,
     Double min,
     Double max,
-    Integer categoryId
+    Integer categoryId,
+    String companyId
 ) {
 }

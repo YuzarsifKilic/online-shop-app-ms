@@ -27,14 +27,13 @@ public class RoleBasedGatewayFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String httpMethod = request.getMethod().toString();
-        System.out.println("HTTP Method: " + httpMethod);
-        String role = request.getHeaders().getFirst("role");
-        int start = role.indexOf("authority=") + 10;
-        int end = role.indexOf("}", start);
-        String authority = role.substring(start, end);
         String path = request.getPath().value();
         for (RoutePath routePath : RoutePath.getRoutes()) {
             if (path.startsWith(routePath.path()) && httpMethod.equals(routePath.method())) {
+                String role = request.getHeaders().getFirst("role");
+                int start = role.indexOf("authority=") + 10;
+                int end = role.indexOf("}", start);
+                String authority = role.substring(start, end);
                 if (authority.equals(routePath.role())) {
                     return chain.filter(exchange);
                 } else {

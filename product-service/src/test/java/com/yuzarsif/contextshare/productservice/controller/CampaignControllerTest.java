@@ -1,6 +1,8 @@
 package com.yuzarsif.contextshare.productservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yuzarsif.contextshare.productservice.client.AddressResponse;
+import com.yuzarsif.contextshare.productservice.client.CompanyResponse;
 import com.yuzarsif.contextshare.productservice.dto.*;
 import com.yuzarsif.contextshare.productservice.exception.EntityNotFoundException;
 import com.yuzarsif.contextshare.productservice.service.CampaignService;
@@ -117,11 +119,11 @@ public class CampaignControllerTest {
     }
 
     private CampaignDto mockCampaignDto() {
-        return new CampaignDto(1, "campaign_name", "campaign_description", LocalDateTime.parse("2024-10-05T13:48"), LocalDateTime.parse("2024-10-05T13:48"), List.of(mockProductDto()));
+        return new CampaignDto(1, "campaign_name", "campaign_description", LocalDateTime.parse("2024-10-05T13:48"), LocalDateTime.parse("2024-10-05T13:48"), List.of(mockProductList()));
     }
 
     private ProductDto mockProductDto() {
-        return new ProductDto(1L, "product_name", "product_description", 1000.0, "main_image_url", mockCategoryDto(), List.of(mockPhotoDto()));
+        return new ProductDto(1L, "product_name", "product_description", 1000.0, "main_image_url", mockCategoryDto(), List.of(mockPhotoDto()), mockCompanyResponse());
     }
 
     private CategoryDto mockCategoryDto() {
@@ -130,5 +132,17 @@ public class CampaignControllerTest {
 
     private PhotoDto mockPhotoDto() {
         return new PhotoDto(1L, "photo_url", 1);
+    }
+
+    private AddressResponse mockAddressResponse() {
+        return new AddressResponse(1L, "country", "city", "street", "zipCode", "apartmentNumber", "flatNumber");
+    }
+
+    private CompanyResponse mockCompanyResponse() {
+        return new CompanyResponse("id", "firstName", "lastName", "email", "companyName", "companyLogoUrl", mockAddressResponse());
+    }
+
+    private ProductList mockProductList() {
+        return new ProductList(1L, "product_name", 1000.0, "main_image_url");
     }
 }

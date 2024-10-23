@@ -1,5 +1,8 @@
 package com.yuzarsif.contextshare.productservice.service;
 
+import com.yuzarsif.contextshare.productservice.client.AddressResponse;
+import com.yuzarsif.contextshare.productservice.client.CompanyResponse;
+import com.yuzarsif.contextshare.productservice.client.UserClient;
 import com.yuzarsif.contextshare.productservice.dto.CreateProductRequest;
 import com.yuzarsif.contextshare.productservice.dto.ProductDto;
 import com.yuzarsif.contextshare.productservice.exception.EntityNotFoundException;
@@ -30,13 +33,20 @@ public class ProductServiceTest {
     @Mock
     private CategoryService categoryService;
 
+    @Mock
+    private UserClient userClient;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testSaveProduct_WhenCategoryExists_ShouldReturnProductDto() {
+    public void testSaveProduct_WhenCompanyExistsAndCategoryExists_ShouldReturnProductDto() {
+
+        when(userClient.existCompanyById(anyString())).thenReturn(true);
+
+        when(userClient.getCompanyById(anyString())).thenReturn(mockCompanyResponse());
 
         when(categoryService.findById(anyInt())).thenReturn(mockCategory());
 
@@ -50,6 +60,15 @@ public class ProductServiceTest {
         assertEquals(1000.0, response.price());
         assertEquals("main_image_url", response.mainImageUrl());
         assertEquals("category_name", response.category().name());
+    }
+
+    @Test
+    public void testSaveProduct_WhenCompanyDoesNotExist_ShouldThrowEntityNotFoundException() {
+
+        when(userClient.existCompanyById(anyString())).thenReturn(false);
+
+
+        assertThrows(EntityNotFoundException.class, () -> productService.saveProduct(mockCreateProductRequest()));
     }
 
     @Test
@@ -101,7 +120,7 @@ public class ProductServiceTest {
     }
 
     private CreateProductRequest mockCreateProductRequest() {
-        return new CreateProductRequest("product_name", "product_description", 1000.0, "main_image_url", 1);
+        return new CreateProductRequest("product_name", "product_description", 1000.0, "main_image_url", 1, "company_id");
     }
 
     private Product mockProduct() {
@@ -122,5 +141,13 @@ public class ProductServiceTest {
                 .id(1)
                 .name("category_name")
                 .build();
+    }
+
+    private AddressResponse mockAddressResponse() {
+        return new AddressResponse(1L, "country", "city", "street", "zipCode", "apartmentNumber", "flatNumber");
+    }
+
+    private CompanyResponse mockCompanyResponse() {
+        return new CompanyResponse("id", "firstName", "lastName", "email", "companyName", "companyLogoUrl", mockAddressResponse());
     }
 }

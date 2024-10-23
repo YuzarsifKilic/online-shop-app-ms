@@ -1,5 +1,6 @@
 import {Category} from "./category";
 import {Photo} from "./photo";
+import {Company} from "./company";
 
 export class ProductList {
   id!: number;
@@ -16,4 +17,5 @@ export class Product {
   mainImageUrl!: string;
   category!: Category;
   photos!: Photo[];
+  company!: Company;
 }

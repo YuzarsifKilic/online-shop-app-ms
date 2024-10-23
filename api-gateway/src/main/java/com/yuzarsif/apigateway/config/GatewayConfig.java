@@ -12,7 +12,7 @@ public class GatewayConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         System.out.println(builder);
         return builder.routes()
-                .route("user-service-route", r -> r.path("/api/v1/users/**")
+                .route("user-service-route", r -> r.path("/api/v1/users/**", "/api/v1/customers/**", "/api/v1/companies", "/api/v1/companies/**")
                         .uri("lb://USER-SERVICE"))
                 .route("product-service-route", r -> r.path("/api/v1/products/**", "/api/v1/categories/**", "/api/v1/campaigns/**", "/api/v1/photos/**")
                         .uri("lb://PRODUCT-SERVICE"))
@@ -20,6 +20,8 @@ public class GatewayConfig {
                         .uri("lb://ORDER-SERVICE"))
                 .route("stock-service-route", r -> r.path("/api/v1/stocks/**")
                         .uri("lb://STOCK-SERVICE"))
+                .route("cart-service-route", r -> r.path("/api/v1/carts/**")
+                        .uri("lb://CART-SERVICE"))
                 .build();
     }
 

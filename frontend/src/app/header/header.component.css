@@ -2,16 +2,28 @@
   background-color: #eff1f1 !important;
 }
 
-
-.icon:hover {
-  color: blue !important;
-  font-size: 1.6rem !important;
-}
-
 .icon {
   cursor: pointer;
 }
 
 .header {
   font-size: 28px;
+}
+
+.btn-group {
+  position: relative;
+}
+
+/* Ensure the icon and button content are aligned */
+.btn .bi-person {
+  vertical-align: middle;
+  margin-right: 5px; /* Adjust space between the icon and caret */
+}
+
+/* Dropdown alignment */
+.dropdown-menu {
+  right: 0; /* Aligns dropdown to the right of the button */
+  transform: translateX(-50%); /* Centers the dropdown relative to the icon */
+  min-width: 150px; /* Adjust width as needed */
+  margin-top: 5px;
 }

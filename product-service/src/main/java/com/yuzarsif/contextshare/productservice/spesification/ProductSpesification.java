@@ -34,6 +34,10 @@ public class ProductSpesification implements Specification<Product> {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(categoryJoin.get("id"), criteria.categoryId()));
         }
 
+        if (criteria.companyId() != null) {
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("companyId"), criteria.companyId()));
+        }
+
         return predicate;
     }
 }

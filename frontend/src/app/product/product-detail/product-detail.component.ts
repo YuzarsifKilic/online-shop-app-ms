@@ -5,15 +5,22 @@ import {Product} from "../../_models/product";
 import {NgForOf} from "@angular/common";
 import {PhotoService} from "../../_services/photo.service";
 import {Photo} from "../../_models/photo";
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {ProductDescriptionComponent} from "./product-description/product-description.component";
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    BsDropdownModule,
+    MatTabGroup,
+    MatTab,
+    ProductDescriptionComponent
   ],
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.css'
+  styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent {
 
@@ -27,6 +34,7 @@ export class ProductDetailComponent {
   photos: Photo[] = [];
   visiblePhotos: Photo[] = [];
   currentIndex = 0; // Şu anda gösterilen başlangıç indeksi
+  maxVisiblePhotos = 4; // Her seferde göstermek istediğimiz fotoğraf sayısı
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -56,29 +64,23 @@ export class ProductDetailComponent {
   }
 
   updateVisiblePhotos() {
-    this.visiblePhotos = this.photos.slice(this.currentIndex, this.currentIndex + 4); // 4 resim göster
+    this.visiblePhotos = this.photos.slice(this.currentIndex, this.currentIndex + this.maxVisiblePhotos);
   }
 
   scrollRight() {
-    if (this.currentIndex + 4 < this.photos.length) {
-      this.currentIndex += 1; // 1 sağa kaydır
+    // Sağ ok tıklanırsa ve daha fazla resim varsa, 4 resim kaydır
+    if (this.currentIndex + this.maxVisiblePhotos < this.photos.length) {
+      this.currentIndex += this.maxVisiblePhotos;
       this.updateVisiblePhotos();
-      this.updateScrollPosition();
     }
   }
 
   scrollLeft() {
-    if (this.currentIndex > 0) {
-      this.currentIndex -= 1; // 1 sola kaydır
+    // Sol ok tıklanırsa ve daha önceki resimler varsa, 4 resim sola kaydır
+    if (this.currentIndex - this.maxVisiblePhotos >= 0) {
+      this.currentIndex -= this.maxVisiblePhotos;
       this.updateVisiblePhotos();
-      this.updateScrollPosition();
     }
-  }
-
-  updateScrollPosition() {
-    const scrollElement = this.innerContainer.nativeElement;
-    const offset = this.currentIndex * 100; // Her resim 100px genişliğinde
-    scrollElement.style.transform = `translateX(-${offset}px)`;
   }
 
   changeImage(url: string) {

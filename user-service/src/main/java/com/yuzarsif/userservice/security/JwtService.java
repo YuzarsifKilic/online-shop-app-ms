@@ -1,5 +1,7 @@
 package com.yuzarsif.userservice.security;
 
+import com.yuzarsif.userservice.model.Customer;
+import com.yuzarsif.userservice.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,10 +22,11 @@ public class JwtService {
     @Value("${jwt.key}")
     private String key;
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", userDetails.getAuthorities());
-        return createToken(claims, userDetails.getUsername());
+        claims.put("roles", user.getAuthorities());
+        claims.put("userId", user.getId());
+        return createToken(claims, user.getUsername());
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
@@ -40,6 +43,13 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
+    }
+
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Date extractExpiration(String token) {
@@ -65,5 +75,15 @@ public class JwtService {
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(key);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String generateTokenForCustomer(Customer customer) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", customer.getAuthorities());
+        claims.put("userId", customer.getId());
+        claims.put("firstName", customer.getFirstName());
+        claims.put("lastName", customer.getLastName());
+        claims.put("email", customer.getEmail());
+        return createToken(claims, customer.getUsername());
     }
 }

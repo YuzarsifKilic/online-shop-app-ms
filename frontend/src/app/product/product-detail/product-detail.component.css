@@ -15,8 +15,9 @@
 }
 
 .product-alt-image:hover {
-  border: 2px solid #eff1f1; /* Mavi renkli kenar çizgisi */
+  border: 2px solid #e0dfdf; /* Mavi renkli kenar çizgisi */
   border-radius: 5px;
+  padding: 5px;
 }
 
 .alt-images-container {
@@ -62,12 +63,6 @@
   color: gray;
 }
 
-.description {
-  font-family: "Inconsolata", monospace;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
 .price {
   display: flex;
   justify-content: center;   /* Yatayda ortalar */
@@ -79,6 +74,7 @@
   font-size: 20px;
   line-height: 1.5;
   font-weight: bold;
+  color: #484848;
 }
 
 button {
@@ -88,10 +84,87 @@ button {
 
 .order-button {
   font-size: 16px;
-  padding: 5px;
   border-radius: 5px;
-  background-color: #ffff;
+  background-color: #0066ff;
   color: black;
   border: 2px solid #0066ff;
   cursor: pointer;
+  padding: 3px;
+}
+
+.order-button:hover {
+  background-color: #2075fa;
+  border: 2px solid #2075fa;
+}
+
+.company-card {
+  border: 1px solid #eeeeee;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-flex;
+}
+
+
+.seller {
+  color: gray;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.company-name {
+  color: #0066ff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.product-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #212121;
+  line-height: 24px;
+}
+
+.follow-company {
+  color: #212121;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.order-label {
+  color: white;
+}
+
+.divider {
+  height: 0.12rem;
+  background-color: black;
+  margin: 18px 0;
+}
+
+.save {
+  background-color: white;
+  border: 1px solid #eeeeee;
+  border-radius: 5px;
+  padding: 4px;
+  width: 54px;
+}
+
+.custom-tab-group .mat-ink-bar {
+  background-color: #ff4081;
+}
+
+.details {
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.custom-tab-group .mat-tab-label {
+  font-family: "Inconsolata", monospace;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ff4081;
 }

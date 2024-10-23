@@ -14,5 +14,8 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
     @Query("SELECT new com.yuzarsif.contextshare.productservice.dto.ProductList(p.id, p.name, p.price, p.mainImageUrl) FROM Product p")
-    List<ProductList> findAllProductList(Specification spesification);
+    List<ProductList> findAllProductList(Specification<Product> spesification);
+
+    @Query("SELECT new com.yuzarsif.contextshare.productservice.dto.ProductList(p.id, p.name, p.price, p.mainImageUrl) FROM Product p WHERE p.id IN (:idList)")
+    List<ProductList> findByIdIn(List<Long> idList);
 }

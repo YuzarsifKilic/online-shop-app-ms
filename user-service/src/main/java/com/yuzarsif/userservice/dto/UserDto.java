@@ -12,10 +12,11 @@ public record UserDto(
 ) {
 
     public static UserDto convert(User from) {
+        // TODO: delete user dto dont need anymore
         return new UserDto(
             from.getId(),
-            from.getFirstName(),
-            from.getLastName(),
+            null,
+            null,
             from.getEmail(),
             from.getRole());
     }

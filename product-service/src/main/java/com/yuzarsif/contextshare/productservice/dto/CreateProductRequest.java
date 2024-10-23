@@ -14,6 +14,8 @@ public record CreateProductRequest(
         @NotNull(message = "MainImageUrl cannot be null")
         String mainImageUrl,
         @NotNull(message = "Category id cannot be null")
-        Integer categoryId
+        Integer categoryId,
+        @NotNull(message = "Company id cannot be null")
+        String companyId
 ) {
 }

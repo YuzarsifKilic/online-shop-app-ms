@@ -1,0 +1,130 @@
+.cart-container {
+  margin-top: 200px;
+  margin-left: 50px;
+}
+
+.cart-content {
+  border: 2px solid #e0dfdf;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 10px;
+  width: 1200px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.product-image {
+  width: 100px;
+  height: auto;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 16px;
+}
+
+.product-price {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #666;
+  width: 100%;
+  overflow: hidden;
+}
+
+.product-price-start {
+  padding-left: 16px;
+  padding-top: 5px;
+}
+
+.product-price-end {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e0dfdf;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.minus-icon, .plus-icon {
+  font-size: 1.4rem;
+  color: #bebebe;
+  padding: 5px;
+}
+
+.throw-icon {
+  font-size: 1.1rem;
+  color: #bebebe;
+  padding: 7px;
+}
+
+.minus-icon:hover, .plus-icon:hover, .throw-icon:hover {
+  cursor: pointer;
+  border-radius: 50%;
+  color: black;
+}
+
+.quantity {
+  width: 50px;
+  text-align: center;
+  font-size: 16px;
+  background-color: #eff1f1;
+  border-radius: 10px;
+  padding: 5px 0;
+  margin: 0 10px;
+}
+
+.removed-alert {
+  background-color: #ebf9ec;
+}
+
+.remove-message {
+  color: #4f4f4f;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.close-button {
+  color: #a4a6a4;
+}
+
+.undo-text {
+  color: #53a75a;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+hr {
+  border: none;
+  height: 2px;
+  background-color: #a4a6a4;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.order-button {
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #0066ff;
+  border: 2px solid #0066ff;
+  cursor: pointer;
+  padding: 5px;
+  color: white;
+  width: 72px;
+}

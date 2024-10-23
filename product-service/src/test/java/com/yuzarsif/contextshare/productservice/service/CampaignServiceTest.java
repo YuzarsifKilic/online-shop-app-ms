@@ -56,10 +56,8 @@ public class CampaignServiceTest {
         assertEquals(LocalDateTime.parse("2024-10-05T13:48"), response.startDate());
         assertEquals(LocalDateTime.parse("2024-10-05T13:48"), response.endDate());
         assertEquals("product_name", response.products().get(0).name());
-        assertEquals("product_description", response.products().get(0).description());
         assertEquals(1000.0, response.products().get(0).price());
         assertEquals("main_image_url", response.products().get(0).mainImageUrl());
-        assertEquals("category_name", response.products().get(0).category().name());
     }
 
     @Test
@@ -89,7 +87,6 @@ public class CampaignServiceTest {
         assertEquals(LocalDateTime.parse("2024-10-05T13:48"), response.startDate());
         assertEquals(LocalDateTime.parse("2024-10-05T13:48"), response.endDate());
         assertEquals("product_name", response.products().get(0).name());
-        assertEquals("product_description", response.products().get(0).description());
         assertEquals(1000.0, response.products().get(0).price());
     }
 

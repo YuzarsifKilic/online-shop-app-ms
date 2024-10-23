@@ -11,7 +11,7 @@ public record CampaignDto(
         String description,
         LocalDateTime startDate,
         LocalDateTime endDate,
-        List<ProductDto> products
+        List<ProductList> products
 ) {
 
     public static CampaignDto convert(Campaign from) {
@@ -21,7 +21,7 @@ public record CampaignDto(
                 from.getDescription(),
                 from.getStartDate(),
                 from.getEndDate(),
-                ProductDto.convert(from.getProducts()));
+                ProductList.convert(from.getProducts()));
     }
 
     public static List<CampaignDto> convert(List<Campaign> campaigns) {

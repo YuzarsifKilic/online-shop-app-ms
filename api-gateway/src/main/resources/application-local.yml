@@ -9,6 +9,15 @@ spring:
     url: jdbc:mysql://localhost:3312/user-db
     username: root
     password: yuzarsif
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
+            allowedHeaders: "*"
+            allowCredentials: true
 
 server:
   port: 8086

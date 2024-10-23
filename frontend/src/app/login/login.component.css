@@ -1,0 +1,23 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Sayfanın tamamını kapsar */
+}
+
+.form {
+  width: 100%;
+  max-width: 500px; /* Formun genişliğini ayarlayın */
+  padding: 20px;
+  background-color: #f8f9fa; /* Hafif gri bir arka plan */
+  border-radius: 10px; /* Köşeleri yuvarlama */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+}

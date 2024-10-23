@@ -15,11 +15,11 @@ public class UserClient {
 
     public Boolean checkUserExists(String userId) {
         try {
-            return restTemplate.getForObject("http://USER-SERVICE/users/exists/{id}", Boolean.class, userId);
+            return restTemplate.getForObject("http://USER-SERVICE/api/v1/customers/exists/{id}", Boolean.class, userId);
         } catch (HttpClientErrorException ex) {
             throw new ClientException(String.format(
                     "An error occurred while trying to access user information. " +
-                    "Url: http://USER-SERVICE/users/exists/%s", userId));
+                    "Url: http://USER-SERVICE/api/v1/customers/exists/%s", userId));
         }
     }
 }

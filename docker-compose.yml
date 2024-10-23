@@ -39,6 +39,18 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: yuzarsif
       MONGO_INITDB_DATABASE: order-db
 
+  cart-db:
+    image: mongo
+    container_name: cart-db
+    ports:
+      - 27018:27017
+    volumes:
+      - cart-db:/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: yuzarsif
+      MONGO_INITDB_ROOT_PASSWORD: yuzarsif
+      MONGO_INITDB_DATABASE: cart-db
+
 #  mongo-express:
 #    image: mongo-express
 #    container_name: mongo_express
@@ -106,3 +118,4 @@ volumes:
   product-db:
   stock-db:
   user-db:
+  cart-db:

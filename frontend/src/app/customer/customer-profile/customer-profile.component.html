@@ -1,0 +1,41 @@
+<div class="container">
+  <!-- Yan Menü -->
+  <div class="sidebar">
+    <div class="user-info">
+      <div class="user-icon">YK</div>
+      <div class="user-name">Yusuf Kılıç</div>
+    </div>
+    <ul class="menu">
+      <li *ngFor="let menu of menuItems" class="d-flex gap-3 mb-2">
+        <i [class]="menu.icon" class="menu-icon"></i>
+        <div>{{ menu.name }}</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Sipariş Listesi -->
+  <div class="content">
+    <h2>Siparişlerim</h2>
+    <div class="order-list">
+      <div class="order-card">
+        <div class="order-info">
+          <span class="order-number">Sipariş no: 932 879 030</span>
+          <span class="order-date">31 Temmuz 2024</span>
+        </div>
+        <div class="order-status">Sipariş tamamlandı</div>
+        <div class="order-price">231,67 TL</div>
+      </div>
+
+      <div class="order-card">
+        <div class="order-info">
+          <span class="order-number">Sipariş no: 302 709 621</span>
+          <span class="order-date">20 Mayıs 2024</span>
+        </div>
+        <div class="order-status">Sipariş tamamlandı</div>
+        <div class="order-price">100,25 TL</div>
+      </div>
+
+      <!-- Daha fazla sipariş ekleyebilirsiniz -->
+    </div>
+  </div>
+</div>

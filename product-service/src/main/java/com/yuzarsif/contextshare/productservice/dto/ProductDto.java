@@ -1,5 +1,6 @@
 package com.yuzarsif.contextshare.productservice.dto;
 
+import com.yuzarsif.contextshare.productservice.client.CompanyResponse;
 import com.yuzarsif.contextshare.productservice.model.Product;
 
 import java.util.List;
@@ -12,10 +13,11 @@ public record ProductDto(
     Double price,
     String mainImageUrl,
     CategoryDto category,
-    List<PhotoDto> photos
+    List<PhotoDto> photos,
+    CompanyResponse company
 ) {
 
-    public static ProductDto convert(Product from) {
+    public static ProductDto convert(Product from, CompanyResponse company) {
         return new ProductDto(
                 from.getId(),
                 from.getName(),
@@ -23,13 +25,8 @@ public record ProductDto(
                 from.getPrice(),
                 from.getMainImageUrl(),
                 CategoryDto.convert(from.getCategory()),
-                from.getPhotos() == null ? null : PhotoDto.convert(from.getPhotos()));
+                from.getPhotos() == null ? null : PhotoDto.convert(from.getPhotos()),
+                company);
     }
 
-    public static List<ProductDto> convert(Set<Product> products) {
-        return products
-                .stream()
-                .map(ProductDto::convert)
-                .toList();
-    }
 }

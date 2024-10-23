@@ -175,15 +175,13 @@ public class UserServiceTest {
     }
 
     private CreateUserRequest mockCreateUserRequest() {
-        return new CreateUserRequest("first_name", "last_name", "email@gmail.com", "password");
+        return new CreateUserRequest("first_name", "last_name", "email@gmail.com", "password", Role.ROLE_USER);
     }
 
     private User mockUser() {
         return User
                 .builder()
                 .id("user_id")
-                .firstName("first_name")
-                .lastName("last_name")
                 .email("email@gmail.com")
                 .password("password")
                 .role(Role.ROLE_USER)

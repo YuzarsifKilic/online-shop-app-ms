@@ -1,0 +1,110 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  padding: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-icon {
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.user-name {
+  margin-left: 10px;
+  font-weight: 600;
+  color: #464646;
+  font-size: 16px;
+}
+
+.menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 20px 0;
+  cursor: pointer;
+}
+
+.menu-icon {
+  color: black;
+  font-size: 1.4rem;
+}
+
+.menu li:hover  {
+  color: #969696;
+}
+
+.menu li:hover .menu-icon  {
+  color: #969696;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.order-card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #e0dfdf;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-number {
+  font-weight: bold;
+}
+
+.order-date {
+  font-size: 12px;
+  color: gray;
+}
+
+.order-status {
+  color: green;
+  font-weight: bold;
+}
+
+.order-price {
+  font-weight: bold;
+  color: #333;
+}

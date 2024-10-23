@@ -3,6 +3,7 @@ package com.yuzarsif.contextshare.productservice.controller;
 import com.yuzarsif.contextshare.productservice.dto.CreateProductRequest;
 import com.yuzarsif.contextshare.productservice.dto.ProductDto;
 import com.yuzarsif.contextshare.productservice.dto.ProductList;
+import com.yuzarsif.contextshare.productservice.dto.ProductSearchCriteria;
 import com.yuzarsif.contextshare.productservice.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductList>> getFilteredProducts(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Double min,
-            @RequestParam(required = false) Double max,
-            @RequestParam(required = false) Integer categoryId) {
-        return ResponseEntity.ok(productService.getFilteredProducts(name, min, max, categoryId));
+    public ResponseEntity<List<ProductList>> getFilteredProducts(@ModelAttribute ProductSearchCriteria criteria) {
+        return ResponseEntity.ok(productService.getFilteredProducts(criteria));
     }
 
     @GetMapping("/{id}")
@@ -41,5 +38,10 @@ public class ProductController {
     @GetMapping("/exists/{id}")
     public ResponseEntity<Boolean> existById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.existById(id));
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<List<ProductList>> getProductsById(@PathVariable List<Long> id) {
+        return ResponseEntity.ok(productService.getProductListById(id));
     }
 }

@@ -33,8 +33,6 @@ public class UserService {
 
         User user = User
                 .builder()
-                .firstName(request.firstName())
-                .lastName(request.lastName())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .role(request.role())
