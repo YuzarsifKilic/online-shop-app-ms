@@ -1,6 +1,5 @@
 package com.yuzarsif.userservice.dto;
 
-import com.yuzarsif.userservice.model.Company;
 import com.yuzarsif.userservice.model.Role;
 import com.yuzarsif.userservice.model.Seller;
 

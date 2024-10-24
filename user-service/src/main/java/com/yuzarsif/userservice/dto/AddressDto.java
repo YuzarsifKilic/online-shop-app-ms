@@ -2,6 +2,9 @@ package com.yuzarsif.userservice.dto;
 
 import com.yuzarsif.userservice.model.Address;
 
+import java.util.List;
+import java.util.Set;
+
 public record AddressDto(
         Long id,
         String country,
@@ -21,5 +24,12 @@ public record AddressDto(
                 from.getZipCode(),
                 from.getApartmentNumber(),
                 from.getFlatNumber());
+    }
+
+    public static List<AddressDto> convert(Set<Address> from) {
+        if (from == null) {
+            return List.of();
+        }
+        return from.stream().map(AddressDto::convert).toList();
     }
 }

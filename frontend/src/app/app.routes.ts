@@ -4,6 +4,7 @@ import {ProductListComponent} from "./product/product-list/product-list.componen
 import {LoginComponent} from "./login/login.component";
 import {CartComponent} from "./cart/cart.component";
 import {CustomerProfileComponent} from "./customer/customer-profile/customer-profile.component";
+import {PimComponent} from "./pim/pim.component";
 
 export const routes: Routes = [
   {
@@ -25,5 +26,9 @@ export const routes: Routes = [
   {
     path: 'customer/profile',
     component: CustomerProfileComponent
+  },
+  {
+    path: 'pim',
+    component: PimComponent
   }
 ];

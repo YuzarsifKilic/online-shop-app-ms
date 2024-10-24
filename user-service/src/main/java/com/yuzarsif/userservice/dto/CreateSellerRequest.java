@@ -16,18 +16,6 @@ public record CreateSellerRequest(
         @NotNull
         String companyLogoUrl,
         @NotNull @Size(min = 10, max = 10, message = "Phone number must be 10 digits")
-        String phoneNumber,
-        @NotNull
-        String country,
-        @NotNull
-        String city,
-        @NotNull
-        String street,
-        @NotNull
-        String zipCode,
-        @NotNull
-        String apartmentNumber,
-        @NotNull
-        String flatNumber
+        String phoneNumber
 ) {
 }

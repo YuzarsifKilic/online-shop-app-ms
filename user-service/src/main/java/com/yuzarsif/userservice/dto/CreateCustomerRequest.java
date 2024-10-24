@@ -15,18 +15,6 @@ public record CreateCustomerRequest(
         @NotNull @Length(min = 8, max = 16, message = "Password must be between 8 and 16 characters")
         String password,
         @NotNull @Size(min = 10, max = 10, message = "Phone number must be 10 digits")
-        String phoneNumber,
-        @NotNull
-        String country,
-        @NotNull
-        String city,
-        @NotNull
-        String street,
-        @NotNull
-        String zipCode,
-        @NotNull
-        String apartmentNumber,
-        @NotNull
-        String flatNumber
+        String phoneNumber
 ) {
 }

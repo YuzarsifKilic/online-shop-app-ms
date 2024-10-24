@@ -3,6 +3,8 @@ package com.yuzarsif.userservice.dto;
 import com.yuzarsif.userservice.model.Customer;
 import com.yuzarsif.userservice.model.Role;
 
+import java.util.List;
+
 public record CustomerDto(
         String id,
         String firstName,
@@ -10,7 +12,7 @@ public record CustomerDto(
         String email,
         Role role,
         String phoneNumber,
-        AddressDto address
+        List<AddressDto> addresses
 ) {
 
     public static CustomerDto convert(Customer from) {
@@ -21,6 +23,6 @@ public record CustomerDto(
                 from.getEmail(),
                 from.getRole(),
                 from.getPhoneNumber(),
-                AddressDto.convert(from.getAddress()));
+                AddressDto.convert(from.getAddresses()));
     }
 }

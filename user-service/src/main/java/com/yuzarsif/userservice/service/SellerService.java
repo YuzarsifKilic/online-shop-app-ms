@@ -1,15 +1,10 @@
 package com.yuzarsif.userservice.service;
 
-import com.yuzarsif.userservice.dto.CompanyDto;
-import com.yuzarsif.userservice.dto.CreateCompanyRequest;
 import com.yuzarsif.userservice.dto.CreateSellerRequest;
 import com.yuzarsif.userservice.dto.SellerDto;
 import com.yuzarsif.userservice.exception.EntityNotFoundException;
-import com.yuzarsif.userservice.model.Address;
-import com.yuzarsif.userservice.model.Company;
 import com.yuzarsif.userservice.model.Role;
 import com.yuzarsif.userservice.model.Seller;
-import com.yuzarsif.userservice.repository.CompanyRepository;
 import com.yuzarsif.userservice.repository.SellerRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,27 +20,15 @@ public class SellerService {
     private final PasswordEncoder passwordEncoder;
 
     public SellerDto createCompany(@Valid CreateSellerRequest request) {
-        Address address = Address
-                .builder()
-                .country(request.country())
-                .city(request.city())
-                .street(request.street())
-                .zipCode(request.zipCode())
-                .apartmentNumber(request.apartmentNumber())
-                .flatNumber(request.flatNumber())
-                .build();
-
-        Address savedAddress = addressService.saveAddress(address);
 
         Seller company = Seller
                 .builder()
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
-                .role(Role.ROLE_COMPANY)
+                .role(Role.ROLE_SELLER)
                 .companyName(request.companyName())
                 .companyLogoUrl(request.companyLogoUrl())
                 .phoneNumber(request.phoneNumber())
-                .address(savedAddress)
                 .build();
 
         return SellerDto.convert(sellerRepository.save(company));

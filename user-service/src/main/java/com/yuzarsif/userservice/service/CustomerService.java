@@ -27,18 +27,6 @@ public class CustomerService {
     private final JwtService jwtService;
 
     public CustomerDto createCustomer(CreateCustomerRequest request) {
-        Address address = Address
-                .builder()
-                .country(request.country())
-                .city(request.city())
-                .street(request.street())
-                .zipCode(request.zipCode())
-                .apartmentNumber(request.apartmentNumber())
-                .flatNumber(request.flatNumber())
-                .build();
-
-        Address savedAddress = addressService.saveAddress(address);
-
         Customer customer = Customer
                 .builder()
                 .firstName(request.firstName())
@@ -47,7 +35,6 @@ public class CustomerService {
                 .password(passwordEncoder.encode(request.password()))
                 .role(Role.ROLE_CUSTOMER)
                 .phoneNumber(request.phoneNumber())
-                .address(savedAddress)
                 .build();
 
         return CustomerDto.convert(customerRepository.save(customer));
@@ -81,5 +68,10 @@ public class CustomerService {
                 claims.get("firstName").toString(),
                 claims.get("lastName").toString(),
                 claims.get("email").toString());
+    }
+
+    protected Customer findCustomerById(String id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Customer not found with id: " + id));
     }
 }
