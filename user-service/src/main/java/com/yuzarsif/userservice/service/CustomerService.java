@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -73,5 +75,13 @@ public class CustomerService {
     protected Customer findCustomerById(String id) {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Customer not found with id: " + id));
+    }
+
+    public List<CustomerDto> getCustomerList(List<String> id) {
+        List<Customer> customers = customerRepository.findByIdIn(id);
+        return customerRepository.findByIdIn(id)
+                .stream()
+                .map(CustomerDto::convert)
+                .toList();
     }
 }

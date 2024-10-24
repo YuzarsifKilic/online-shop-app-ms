@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/customers")
 @RequiredArgsConstructor
@@ -33,5 +35,10 @@ public class CustomerController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(customerService.login(request));
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<List<CustomerDto>> getCustomerList(@PathVariable List<String> id) {
+        return ResponseEntity.ok(customerService.getCustomerList(id));
     }
 }

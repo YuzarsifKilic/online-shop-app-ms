@@ -32,4 +32,9 @@ public class OrderController {
     public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable String userId) {
         return ResponseEntity.ok(orderService.findOrdersByUserId(userId));
     }
+
+    @GetMapping("/check-order-exists")
+    public ResponseEntity<Boolean> checkOrderExists(@RequestParam String userId, @RequestParam Long productId) {
+        return ResponseEntity.ok(orderService.checkOrderExists(userId, productId));
+    }
 }

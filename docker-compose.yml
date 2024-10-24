@@ -51,6 +51,18 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: yuzarsif
       MONGO_INITDB_DATABASE: cart-db
 
+  review-db:
+    image: mongo
+    container_name: review-db
+    ports:
+      - 27019:27017
+    volumes:
+      - review-db:/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: yuzarsif
+      MONGO_INITDB_ROOT_PASSWORD: yuzarsif
+      MONGO_INITDB_DATABASE: review-db
+
 #  mongo-express:
 #    image: mongo-express
 #    container_name: mongo_express
@@ -119,3 +131,4 @@ volumes:
   stock-db:
   user-db:
   cart-db:
+  review-db:

@@ -1,0 +1,17 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  data:
+    mongodb:
+      username: yuzarsif
+      password: yuzarsif
+      host: localhost
+      port: 27019
+      database: review-db
+      authentication-database: admin
+
+server:
+  port: 8089

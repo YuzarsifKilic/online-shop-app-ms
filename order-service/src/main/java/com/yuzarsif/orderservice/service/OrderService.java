@@ -104,4 +104,8 @@ public class OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
         return OrderDto.convert(order);
     }
+
+    public Boolean checkOrderExists(String customerId, Long productId) {
+        return orderRepository.findByUserIdAndProductId(customerId, productId).size() > 0;
+    }
 }
