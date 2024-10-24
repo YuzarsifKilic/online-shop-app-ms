@@ -78,7 +78,6 @@ public class CustomerService {
     }
 
     public List<CustomerDto> getCustomerList(List<String> id) {
-        List<Customer> customers = customerRepository.findByIdIn(id);
         return customerRepository.findByIdIn(id)
                 .stream()
                 .map(CustomerDto::convert)

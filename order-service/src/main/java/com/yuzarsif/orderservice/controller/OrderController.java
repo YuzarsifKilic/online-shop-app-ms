@@ -2,6 +2,7 @@ package com.yuzarsif.orderservice.controller;
 
 import com.yuzarsif.orderservice.dto.CreateOrderRequest;
 import com.yuzarsif.orderservice.dto.OrderDto;
+import com.yuzarsif.orderservice.dto.OrderResponse;
 import com.yuzarsif.orderservice.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class OrderController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable String userId) {
+    public ResponseEntity<List<OrderResponse>> getOrdersByUserId(@PathVariable String userId) {
         return ResponseEntity.ok(orderService.findOrdersByUserId(userId));
     }
 
