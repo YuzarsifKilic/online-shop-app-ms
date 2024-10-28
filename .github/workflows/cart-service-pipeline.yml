@@ -18,6 +18,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: List Directories
+        run: ls -la
+
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
