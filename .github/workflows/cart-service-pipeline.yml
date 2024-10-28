@@ -81,5 +81,5 @@ jobs:
           file: cart-service/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/cart-service:${{ needs.build.outputs.VERSION }}
+            ${{ secrets.DOCKER_USERNAME }}/cart-service:${{ outputs.VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/cart-service:latest
