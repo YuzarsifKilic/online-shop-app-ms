@@ -26,4 +26,14 @@ public class AddressController {
     public ResponseEntity<List<AddressDto>> getAddressByCustomerId(@PathVariable String customerId) {
         return ResponseEntity.ok(addressService.findAddressByCustomerId(customerId));
     }
+
+    @GetMapping("/exists/{addressId}")
+    public ResponseEntity<Boolean> existById(@PathVariable Long addressId) {
+        return ResponseEntity.ok(addressService.checkAddressExists(addressId));
+    }
+
+    @GetMapping("/{addressId}")
+    public ResponseEntity<AddressDto> getAddressById(@PathVariable Long addressId) {
+        return ResponseEntity.ok(addressService.findAddressById(addressId));
+    }
 }

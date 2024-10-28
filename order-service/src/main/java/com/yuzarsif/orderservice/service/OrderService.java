@@ -5,12 +5,14 @@ import com.yuzarsif.orderservice.client.product.ProductResponse;
 import com.yuzarsif.orderservice.client.stock.StockClient;
 import com.yuzarsif.orderservice.client.stock.StockResponse;
 import com.yuzarsif.orderservice.client.stock.UpdateStockRequest;
+import com.yuzarsif.orderservice.client.user.AddressResponse;
 import com.yuzarsif.orderservice.client.user.UserClient;
 import com.yuzarsif.orderservice.dto.CreateOrderRequest;
 import com.yuzarsif.orderservice.dto.OrderDto;
 import com.yuzarsif.orderservice.dto.OrderResponse;
 import com.yuzarsif.orderservice.exception.EntityNotFoundException;
 import com.yuzarsif.orderservice.model.Order;
+import com.yuzarsif.orderservice.model.OrderStatus;
 import com.yuzarsif.orderservice.model.Product;
 import com.yuzarsif.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,10 @@ public class OrderService {
 
         if (!userClient.checkUserExists(createOrderRequest.userId())) {
             throw new EntityNotFoundException("User not found with id : " + createOrderRequest.userId());
+        }
+
+        if (!userClient.existsAddress(createOrderRequest.addressId())) {
+            throw new EntityNotFoundException("Address not found with id : " + createOrderRequest.addressId());
         }
 
         for (int i = 0; i < createOrderRequest.products().size(); i++) {
@@ -72,6 +78,7 @@ public class OrderService {
                 .builder()
                 .userId(createOrderRequest.userId())
                 .products(productsList)
+                .orderStatus(OrderStatus.PENDING)
                 .build();
 
         Order savedOrder = orderRepository.save(order);
@@ -99,7 +106,8 @@ public class OrderService {
         for (Order order : orders) {
             List<Long> productIds = order.getProducts().stream().map(Product::getProductId).toList();
             List<ProductResponse> products = productClient.getProductById(productIds);
-            OrderResponse orderResponse = new OrderResponse(order.getId(), order.getUserId(), products);
+            AddressResponse address = userClient.findAddressById(order.getAddressId());
+            OrderResponse orderResponse = new OrderResponse(order.getId(), order.getUserId(), products, address);
             orderResponseList.add(orderResponse);
         }
 

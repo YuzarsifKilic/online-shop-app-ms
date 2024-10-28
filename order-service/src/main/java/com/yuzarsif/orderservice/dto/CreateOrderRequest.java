@@ -9,6 +9,8 @@ public record CreateOrderRequest(
         @NotNull
         String userId,
         @NotEmpty
-        List<ProductRequest> products
+        List<ProductRequest> products,
+        @NotNull
+        Long addressId
 ) {
 }

@@ -19,4 +19,6 @@ public class Order {
     private String id;
     private String userId;
     private Set<Product> products;
+    private OrderStatus orderStatus;
+    private Long addressId;
 }

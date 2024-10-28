@@ -2,6 +2,7 @@ package com.yuzarsif.userservice.service;
 
 import com.yuzarsif.userservice.dto.AddressDto;
 import com.yuzarsif.userservice.dto.CreateAddressRequest;
+import com.yuzarsif.userservice.exception.EntityNotFoundException;
 import com.yuzarsif.userservice.model.Address;
 import com.yuzarsif.userservice.model.Customer;
 import com.yuzarsif.userservice.repository.AddressRepository;
@@ -45,5 +46,14 @@ public class AddressService {
                 .stream()
                 .map(AddressDto::convert)
                 .toList();
+    }
+
+    public Boolean checkAddressExists(Long addressId) {
+        return addressRepository.existsById(addressId);
+    }
+
+    public AddressDto findAddressById(Long addressId) {
+        return AddressDto.convert(addressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + addressId)));
     }
 }

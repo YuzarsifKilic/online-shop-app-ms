@@ -22,4 +22,24 @@ public class UserClient {
                     "Url: http://USER-SERVICE/api/v1/customers/exists/%s", userId));
         }
     }
+
+    public Boolean existsAddress(Long addressId) {
+        try {
+            return restTemplate.getForObject("http://USER-SERVICE/api/v1/addresses/exists/{id}", Boolean.class, addressId);
+        } catch (HttpClientErrorException ex) {
+            throw new ClientException(String.format(
+                    "An error occurred while checking address exist. " +
+                            "Url: http://USER-SERVICE/api/v1/addresses/exists/%s", addressId));
+        }
+    }
+
+    public AddressResponse findAddressById(Long addressId) {
+        try {
+            return restTemplate.getForObject("http://USER-SERVICE/api/v1/addresses/{id}", AddressResponse.class, addressId);
+        } catch (HttpClientErrorException ex) {
+            throw new ClientException(String.format(
+                    "An error occurred while checking address exist. " +
+                            "Url: http://USER-SERVICE/api/v1/addresses/exists/%s", addressId));
+        }
+    }
 }
