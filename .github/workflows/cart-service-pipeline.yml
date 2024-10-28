@@ -35,8 +35,8 @@ jobs:
         run: |
           cd cart-service
           VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "::set-output name=VERSION::$VERSION"
+          echo "::set-output name=version::$VERSION"
+          echo "Version: $VERSION"  # Version'ı yazdır
 
   test:
     name: Test Cart Service
@@ -81,5 +81,5 @@ jobs:
           file: cart-service/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/cart-service:${{ env.VERSION }}
+            ${{ secrets.DOCKER_USERNAME }}/cart-service:${{ needs.build.outputs.VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/cart-service:latest
